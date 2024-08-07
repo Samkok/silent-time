@@ -1,0 +1,212 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:silenttime/screens/my_rules/controller/myrules_controller.dart';
+import 'package:silenttime/utils/app_imaes.dart';
+import 'package:silenttime/widges/action_button_widget.dart';
+import 'package:silenttime/widges/custom_text.dart';
+
+import '../../utils/colors.dart';
+
+// ignore: must_be_immutable
+class UpdateActionScreen extends StatelessWidget {
+  const UpdateActionScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   MyRulesController myRulesController = Get.put(MyRulesController());
+    //   myRulesController.updateAction(trigerModelndex.trigerActionButtonNumber!);
+    // });
+    return GetBuilder<MyRulesController>(
+        init: MyRulesController(),
+        builder: (controller) {
+          return Padding(
+            padding: EdgeInsets.symmetric(vertical: 16.sp, horizontal: 15.w),
+            child: Column(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                      border: Border.all(color: AppColors.grey, width: 0.2)),
+                  child: Column(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                            vertical: 10.h, horizontal: 20.w),
+                        decoration: const BoxDecoration(
+                          color: AppColors.primaryBlue,
+                        ),
+                        child: Row(
+                          children: [
+                            // Text(trigerModelndex.trigerTitle.toString()),
+                            // const Icon(
+                            //   Icons.question_mark,
+                            //   color: AppColors.whiteColor,
+                            //   size: 20,
+                            // ),
+                            CText(
+                              text: 'Add Action',
+                              fontSize: 20.sp,
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.whiteColor,
+                            )
+                          ],
+                        ),
+                      ),
+                      ListTile(
+                        leading: const Icon(
+                          Icons.mic,
+                          color: AppColors.primaryBlue,
+                          size: 30,
+                        ),
+                        title: CText(
+                          text: 'Set Sound Mode Action',
+                          fontSize: 16.sp,
+                          color: AppColors.primaryBlue,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        subtitle: SizedBox(
+                          width: 255.w,
+                          child: CText(
+                            maxLines: 2,
+                            text:
+                                'Set device sound mode to Normal/ Vibrate Silent.',
+                            fontSize: 12.sp,
+                            color: AppColors.blue42,
+                            fontWeight: FontWeight.w300,
+                          ),
+                        ),
+                        trailing: const Icon(
+                          Icons.arrow_back_ios_rounded,
+                          color: AppColors.primaryBlue,
+                          size: 25,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 24.h),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ActionButtonWidget(
+                        buttonIcon: AppImaes.notdisturbicon,
+                        buttonText: 'Priority Mode / Do Not Disturb',
+                        onPressed: () {
+                          controller.updateAction(0);
+                          // controller.saveTrigerAction('Do-Not-Disturb');
+                          // controller.changeActionNumber(0);
+                        },
+                        buttonColor: controller.actionButtonNum.value == 0
+                            ? AppColors.primaryBlue
+                            : AppColors.blueFD,
+                      ),
+                      ActionButtonWidget(
+                        buttonIcon: AppImaes.vibrationIcon,
+                        buttonText: 'Silent - Vibrate off',
+                        onPressed: () {
+                          controller.updateAction(1);
+                          // controller.saveTrigerAction('Silent');
+                          // controller.changeActionNumber(1);
+                        },
+                        buttonColor: controller.actionButtonNum.value == 1
+                            ? AppColors.primaryBlue
+                            : AppColors.blueFD,
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 16.h),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ActionButtonWidget(
+                        buttonIcon: AppImaes.speackerIcon,
+                        buttonText: 'Speaker Phone ON/OFF',
+                        onPressed: () {
+                          controller.updateAction(2);
+                          // controller.saveTrigerAction('Speaker-ON/OFF');
+                          // controller.changeActionNumber(2);
+                        },
+                        buttonColor: controller.actionButtonNum.value == 2
+                            ? AppColors.primaryBlue
+                            : AppColors.blueFD,
+                      ),
+                      ActionButtonWidget(
+                        buttonIcon: AppImaes.vibrationIcon,
+                        buttonText: 'Vibrate Enable/Disable',
+                        onPressed: () {
+                          controller.updateAction(3);
+                          // controller.saveTrigerAction('Vibrate-Enable/Disable');
+                          // controller.changeActionNumber(3);
+                        },
+                        buttonColor: controller.actionButtonNum.value == 3
+                            ? AppColors.primaryBlue
+                            : AppColors.blueFD,
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 16.h),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ActionButtonWidget(
+                        buttonIcon: AppImaes.volumnchangeIcon,
+                        buttonText: 'Volume Change',
+                        onPressed: () {
+                          controller.updateAction(4);
+                          // controller.saveTrigerAction('Volume-Change');
+                          // controller.changeActionNumber(4);
+                        },
+                        buttonColor: controller.actionButtonNum.value == 4
+                            ? AppColors.primaryBlue
+                            : AppColors.blueFD,
+                      ),
+                      ActionButtonWidget(
+                        buttonIcon: AppImaes.volumupdownIcon,
+                        buttonText: 'Volume up/ down',
+                        onPressed: () {
+                          controller.updateAction(5);
+                          // controller.saveTrigerAction('Volume-Up-Down');
+                          // controller.changeActionNumber(5);
+                        },
+                        buttonColor: controller.actionButtonNum.value == 5
+                            ? AppColors.primaryBlue
+                            : AppColors.blueFD,
+                      ),
+                    ],
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    // controller.setup3Status();
+                    // controller.changetabVal(2);
+                    controller.updateTrigerSteps(2);
+                  },
+                  child: Container(
+                    margin: EdgeInsets.only(top: 180.h),
+                    padding:
+                        EdgeInsets.symmetric(vertical: 10.h, horizontal: 20.w),
+                    decoration: const BoxDecoration(
+                        color: AppColors.primaryBlue,
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                    child: Center(
+                      child: CText(
+                        text: 'Next',
+                        fontSize: 20.sp,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.whiteColor,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        });
+  }
+}
