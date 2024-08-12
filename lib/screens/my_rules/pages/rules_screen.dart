@@ -219,7 +219,7 @@ class RulesScreen extends StatelessWidget {
                         }
                         log('dayname.............  ${dayname}');
 
-                        var todo = TrigerModel(
+                        var todo = TriggerModel(
                           trigerCreatedDateTime: DateTime.now(),
                           trigerAction: controller.trigerAction.value,
                           trigerDayName: dayname,

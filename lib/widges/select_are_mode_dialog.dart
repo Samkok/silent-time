@@ -127,7 +127,7 @@ class SelectAreaModeDialog extends StatelessWidget {
                             tristate: true,
                             value: controller.areaExit.value,
                             onChanged: (newValue) {
-                              controller.areaExittatus();
+                              controller.areaExitStatus();
                             },
                             activeColor: AppColors.primaryBlue,
                             focusColor: AppColors.primaryBlue,

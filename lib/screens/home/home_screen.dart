@@ -27,7 +27,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   bool status = false;
-  bool isexpand = false;
+  bool isExpand = false;
 
   MyRulesController myRulesController = Get.put(MyRulesController());
   SwitchButtonController switcherController = Get.put(SwitchButtonController());
@@ -36,8 +36,8 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     myRulesController.getAllTriggers();
     myRulesController.checkPermission();
-    BackgroundLocationService().getCurrentLocationm();
-    Future.delayed(Duration(milliseconds: 500), () async {
+    BackgroundLocationService().getCurrentLocation();
+    Future.delayed(const Duration(milliseconds: 500), () async {
       await switcherController.checkStatus();
       myRulesController.checkAndStopServices();
     });
@@ -63,7 +63,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: IconButton(
                     onPressed: () {
                       controller.checkPermission();
-                      myRulesController.setdefaultStartandEndTime();
+                      // myRulesController.setDefaultStartAndEndTime();
+                      controller.setDefaultStartAndEndTime();
 
                       controller.disposeThins();
                       Get.to(() => const NewRuleScreen());
@@ -108,12 +109,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                                 GestureDetector(
                                   onTap: () async {
-                                    print("Click");
-                                    FlutterMute
-                                        .openNotificationPolicySettings();
+                                    FlutterMute.openNotificationPolicySettings();
 
-                                    myRulesController
-                                        .updateisPermissionEnabled(true);
+                                    // myRulesController.updateisPermissionEnabled(true);
+                                    controller.updateIsPermissionEnabled(true);
                                   },
                                   child: Container(
                                     height: 39.h,
@@ -171,8 +170,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ? 0
                                   : controller.trigerModelList.length,
                               itemBuilder: (context, index) {
-                                TrigerModel item =
-                                    controller.trigerModelList[index];
+                                TriggerModel item = controller.trigerModelList[index];
                                 return Padding(
                                   padding: EdgeInsets.only(
                                       right: 15.w, left: 15.w, top: 20.h),
@@ -351,8 +349,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   log("Edit.  trigerToTimeMint..........${controller.trigerModelList[index].trigerToTimeMint}");
 
                                                   Get.to(
-                                                    () => UpdateTriger(
-                                                      trigerModelIndex: controller
+                                                    () => UpdateTrigger(
+                                                      triggerModelIndex: controller
                                                               .trigerModelList[
                                                           index],
                                                       ind: index,
@@ -411,9 +409,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                           title:
                                                               'Are you sure you want to delete this Triger ',
                                                           onPress: () {
-                                                            controller
-                                                                .deleteTrigger(
-                                                                    index);
+                                                            controller.deleteTrigger(index);
                                                           },
                                                         );
                                                       });

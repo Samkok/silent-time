@@ -29,8 +29,8 @@ class TriggerServices {
     var jsonString = prefs.getString("triggers");
     if (jsonString != null) {
       Iterable iterable = json.decode(jsonString);
-      List<TrigerModel> trigerList = List<TrigerModel>.from(
-          iterable.map((model) => TrigerModel.fromJson(model)));
+      List<TriggerModel> trigerList = List<TriggerModel>.from(
+          iterable.map((model) => TriggerModel.fromJson(model)));
       print(
           "switcherController.pressedBool.value: ${switcherController.pressedBool.value}");
 
@@ -48,7 +48,7 @@ class TriggerServices {
     }
   }
 
-  void processTriggers(TrigerModel triger) {
+  void processTriggers(TriggerModel triger) {
     switch (triger.trigerTitle.toString()) {
       case 'Location Trigger':
         locationTrigger(triger);
@@ -70,7 +70,7 @@ class TriggerServices {
     }
   }
 
-  locationTrigger(TrigerModel triger) async {
+  locationTrigger(TriggerModel triger) async {
     print('locationTrigger________________________________');
     SharedPreferences pref = await SharedPreferences.getInstance();
     var lat = pref.getDouble("lat") ?? 0.0;
@@ -91,7 +91,7 @@ class TriggerServices {
     }
   }
 
-  geofenceTrigger(TrigerModel triger) async {
+  geofenceTrigger(TriggerModel triger) async {
     print('geofenceTrigger ________________________________');
 
     SharedPreferences pref = await SharedPreferences.getInstance();
@@ -122,7 +122,7 @@ class TriggerServices {
     }
   }
 
-  dayTimeTrigger(TrigerModel triger) {
+  dayTimeTrigger(TriggerModel triger) {
     print(
         'dayTimeTrigger.: ___________ ${triger.trigerAction}_____________________${triger.trigerDayName}');
 
@@ -144,7 +144,7 @@ class TriggerServices {
     }
   }
 
-  dayOFWeekMonthTrigger(TrigerModel triger) {
+  dayOFWeekMonthTrigger(TriggerModel triger) {
     print(
         'dayOFWeekMonthTrigger __________${triger.trigerDayNumber}${triger.trigerMonthName!}______________________');
 
@@ -170,7 +170,7 @@ class TriggerServices {
     }
   }
 
-  regularTimeTrigger(TrigerModel triger) {
+  regularTimeTrigger(TriggerModel triger) {
     print(
         'regularTimeTrigger ___________________${triger.trigerHours}:${triger.trigerMinutes}:${triger.trigerSeconds}');
 
@@ -205,7 +205,7 @@ class TriggerServices {
   }
 
   void processMethods(
-    TrigerModel triger,
+    TriggerModel triger,
     String value,
   ) {
     if (value == "") {
@@ -269,12 +269,12 @@ class TriggerServices {
     return dayName;
   }
 
-  SaveisTriggerTrue(TrigerModel triger, isTriggered) async {
+  SaveisTriggerTrue(TriggerModel triger, isTriggered) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var jsonString = prefs.getString("triggers");
     Iterable iterable = json.decode(jsonString!);
-    List<TrigerModel> trigerList = List<TrigerModel>.from(
-        iterable.map((model) => TrigerModel.fromJson(model)));
+    List<TriggerModel> trigerList = List<TriggerModel>.from(
+        iterable.map((model) => TriggerModel.fromJson(model)));
 
     //
     trigerList

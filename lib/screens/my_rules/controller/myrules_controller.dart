@@ -16,15 +16,15 @@ import '../../../controllers/switchbutton_controller.dart';
 import '../../../models/triger_model.dart';
 
 class MyRulesController extends GetxController {
-  SwitchButtonController switcherController = Get.put(SwitchButtonController());
-  RxInt tabval = 0.obs;
+  // SwitchButtonController switcherController = Get.put(SwitchButtonController());
+  RxInt tabVal = 0.obs;
   RxBool areaEntered = true.obs;
   RxBool areaExit = false.obs;
   RxBool previousLocation = true.obs;
   RxBool step1 = true.obs;
   RxBool step2 = false.obs;
   RxBool step3 = false.obs;
-  RxBool selectedTriger = false.obs;
+  RxBool selectedTrigger = false.obs;
 
   // Trigger params
   RxBool mon = false.obs;
@@ -76,7 +76,7 @@ class MyRulesController extends GetxController {
   RxBool updateStep2 = false.obs;
   RxBool updateStep3 = false.obs;
 
-  TrigerModel? trigerModelSaveIndex;
+  TriggerModel? trigerModelSaveIndex;
   int indexVal = 0;
   RxBool locationPickerClick = false.obs;
 
@@ -119,7 +119,7 @@ class MyRulesController extends GetxController {
     step1.value = true;
     step2.value = false;
     step3.value = false;
-    changetabVal(0);
+    changeTabVal(0);
     // selectedDayName.clear();
     clearDaysName();
     ruleNameController.clear();
@@ -132,21 +132,21 @@ class MyRulesController extends GetxController {
   }
 
   updateMasterFun(
-    TrigerModel indexmodel,
-    indval,
+    TriggerModel indexModel,
+    indVal,
   ) {
-    trigerModelSaveIndex = indexmodel;
-    log('trigerModelSaveIndex.........: ${trigerModelSaveIndex!.trigerDayName}');
-    indexVal = indval;
+    trigerModelSaveIndex = indexModel;
+    log('triggerModelSaveIndex.........: ${trigerModelSaveIndex!.trigerDayName}');
+    indexVal = indVal;
     trigerTitle.value = trigerModelSaveIndex!.trigerTitle!;
     if (trigerTitle.value == "Day/Time Trigger") {
-      updateDayTimeTrigerFunction(trigerModelSaveIndex!);
+      updateDayTimeTriggerFunction(trigerModelSaveIndex!);
     } else if (trigerTitle.value == "Day of Week/Month") {
       updateDayofWeekMonth(trigerModelSaveIndex!);
     } else if (trigerTitle.value == "Regular Interval") {
       updateRegularInterval(trigerModelSaveIndex!);
     } else if (trigerTitle.value == "Location Trigger") {
-      updateLocationTriger(trigerModelSaveIndex!);
+      updateLocationTrigger(trigerModelSaveIndex!);
     } else {
       log('Its else ');
     }
@@ -162,7 +162,7 @@ class MyRulesController extends GetxController {
     reStartBGServices();
   }
 
-  setdefaultStartandEndTime() {
+  setDefaultStartAndEndTime() {
     DateTime dateTime = DateTime.now();
     String formattedHour = DateFormat('h').format(dateTime);
     DateFormat('m').format(dateTime);
@@ -174,7 +174,7 @@ class MyRulesController extends GetxController {
   }
 
 //  Update Location Triger
-  updateLocationTriger(TrigerModel trigInd) {
+  updateLocationTrigger(TriggerModel trigInd) {
     zoneRadiousController.text = trigInd.zoneRadious.toString();
     zoneNameController.text = trigInd.zoneName!;
     locationName.value = trigInd.locationName!;
@@ -182,8 +182,8 @@ class MyRulesController extends GetxController {
     locationLong.value = trigInd.locationLong!;
   }
 
-  updateDayTimeTrigerFunction(
-    TrigerModel trigInd,
+  updateDayTimeTriggerFunction(
+    TriggerModel trigInd,
   ) {
     log("updateDayTimeTrigerFunction...................}");
     fromTime = TimeOfDay(
@@ -294,22 +294,22 @@ class MyRulesController extends GetxController {
   //Udated  triger Steps
   updateTrigerSteps(int tabValue) {
     if (tabValue == 0) {
-      tabval.value = tabValue;
+      tabVal.value = tabValue;
       step1.value = true;
       step2.value = false;
       step3.value = false;
     } else if (tabValue == 1) {
-      tabval.value = tabValue;
+      tabVal.value = tabValue;
       step1.value = false;
       step2.value = true;
       step3.value = false;
     } else if (tabValue == 2) {
-      tabval.value = tabValue;
+      tabVal.value = tabValue;
       step1.value = false;
       step2.value = false;
       step3.value = true;
     } else {
-      tabval.value = 0;
+      tabVal.value = 0;
       step1.value = false;
       step2.value = false;
       step3.value = true;
@@ -407,7 +407,7 @@ class MyRulesController extends GetxController {
   }
 
 //Update Date of Week Month
-  updateDayofWeekMonth(TrigerModel trigMod) {
+  updateDayofWeekMonth(TriggerModel trigMod) {
     fromTime = TimeOfDay(
       hour: int.parse(trigMod.trigerFromTimeHour!),
       minute: int.parse(trigMod.trigerFromTimeMint!),
@@ -421,7 +421,7 @@ class MyRulesController extends GetxController {
   }
 
   //Update  Regular interval
-  updateRegularInterval(TrigerModel trigMod) {
+  updateRegularInterval(TriggerModel trigMod) {
     fromTime = TimeOfDay(
       hour: int.parse(trigMod.trigerFromTimeHour!),
       minute: int.parse(trigMod.trigerFromTimeMint!),
@@ -526,15 +526,15 @@ class MyRulesController extends GetxController {
     update();
   }
 
-  void changetabVal(int val) {
+  void changeTabVal(int val) {
     print('val: ${val}');
-    tabval.value = val;
+    tabVal.value = val;
 
-    if (tabval.value == 1) {
+    if (tabVal.value == 1) {
       trigerFiilterList = trigerModelList
           .where((element) => element.trigerStatus == true)
           .toList();
-    } else if (tabval.value == 2) {
+    } else if (tabVal.value == 2) {
       trigerFiilterList = trigerModelList
           .where((element) => element.trigerStatus == false)
           .toList();
@@ -549,7 +549,7 @@ class MyRulesController extends GetxController {
     update();
   }
 
-  void areaExittatus() {
+  void areaExitStatus() {
     areaExit.toggle();
     update();
   }
@@ -621,7 +621,7 @@ class MyRulesController extends GetxController {
     update();
   }
 
-  updateisPermissionEnabled(v) {
+  updateIsPermissionEnabled(v) {
     isPermissionEnabled.value = v;
     update();
   }
@@ -630,24 +630,24 @@ class MyRulesController extends GetxController {
   TextEditingController descriptionController = TextEditingController();
   FocusNode titleFocus = FocusNode();
   FocusNode descriptionFocus = FocusNode();
-  List<TrigerModel> trigerModelList = [];
-  List<TrigerModel> trigerFiilterList = [];
+  List<TriggerModel> trigerModelList = [];
+  List<TriggerModel> trigerFiilterList = [];
 
   final triggerKey = "triggers";
 
-  Future<void> saveTriggers() async {
+  FutureOr<void> saveTriggers() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     List jsonList = trigerModelList.map((trigger) => trigger.toJson()).toList();
     await prefs.setString(triggerKey, json.encode(jsonList));
     reStartBGServices();
 
     if (isPermissionEnabled.value && timer == null) {
-      startLocationTmer();
+      startLocationTimer();
     }
     update();
   }
 
-  Future<void> updateTriggers(TrigerModel triger) async {
+  FutureOr<void> updateTriggers(TriggerModel triger) async {
     log("indexVal----$indexVal");
     // log('trigerModelList   length  Before= ${trigerModelList.length} ');
     trigerModelList.removeAt(indexVal);
@@ -665,18 +665,18 @@ class MyRulesController extends GetxController {
     update();
   }
 
-  Future<void> getAllTriggers() async {
+  FutureOr<void> getAllTriggers() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var jsonString = prefs.getString(triggerKey);
     if (jsonString != null) {
       Iterable iterable = json.decode(jsonString);
-      trigerModelList = List<TrigerModel>.from(
-          iterable.map((model) => TrigerModel.fromJson(model)));
+      trigerModelList = List<TriggerModel>.from(
+          iterable.map((model) => TriggerModel.fromJson(model)));
     }
     update();
   }
 
-  Future<void> deleteTrigger(index) async {
+  FutureOr<void> deleteTrigger(index) async {
     trigerModelList.removeAt(index);
     await saveTriggers();
     // Future.delayed(Duration(milliseconds: 500), () async {
@@ -687,10 +687,10 @@ class MyRulesController extends GetxController {
 
   Timer? timer;
 
-  startLocationTmer() {
+  startLocationTimer() {
     // Timer for location
-    timer = Timer.periodic(Duration(seconds: 10), (timer) {
-      BackgroundLocationService().getCurrentLocationm();
+    timer = Timer.periodic(const Duration(seconds: 10), (timer) {
+      BackgroundLocationService().getCurrentLocation();
     });
   }
 

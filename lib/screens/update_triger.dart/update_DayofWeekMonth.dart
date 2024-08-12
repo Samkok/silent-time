@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:silenttime/screens/my_rules/controller/myrules_controller.dart';
-import 'package:silenttime/screens/my_rules/dialogs/time_picker.dart';
 import 'package:silenttime/screens/update_triger.dart/update_DayTimeTriger.dart';
 import 'package:silenttime/utils/colors.dart';
 import '../../widges/custom_text.dart';
 import '../../widges/text_field.dart';
+import 'dart:async';
 
 String formatTime(TimeOfDay time) {
   String hour = time.hourOfPeriod.toString().padLeft(2, '0');
@@ -86,7 +86,7 @@ class _UpdateDayofWeekMonthTrigerState
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(seconds: 1), () {
+    Future.delayed(const Duration(seconds: 1), () {
       log("day>>>> ${myRulesController.selectedDay.value}");
       myRulesController.updateSelectedDay(myRulesController.selectedDay.value);
     });

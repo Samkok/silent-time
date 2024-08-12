@@ -64,7 +64,7 @@ class _NewRuleScreenState extends State<NewRuleScreen> {
                                 image: const AssetImage(AppImaes.trigerlogo),
                               ),
                               CText(
-                                text: 'Triger',
+                                text: 'Trigger',
                                 fontSize: 20.sp,
                                 fontWeight: FontWeight.w500,
                                 color: AppColors.whiteColor,
@@ -134,7 +134,7 @@ class _NewRuleScreenState extends State<NewRuleScreen> {
                         ),
                       ],
                     ),
-                    controller.tabval.value == 0
+                    controller.tabVal.value == 0
                         ? Column(
                             children: [
                               Container(
@@ -531,9 +531,9 @@ class _NewRuleScreenState extends State<NewRuleScreen> {
                               )
                             ],
                           )
-                        : controller.tabval.value == 1
+                        : controller.tabVal.value == 1
                             ? const ActionScreen()
-                            : controller.tabval.value == 2
+                            : controller.tabVal.value == 2
                                 ? const RulesScreen()
                                 : const SizedBox()
                   ],

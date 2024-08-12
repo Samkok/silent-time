@@ -34,7 +34,7 @@ locationPiker(context) async {
           myRulesController.updateLocationDetail(result);
           Navigator.of(context).pop();
         },
-        initialPosition: LatLng(11.562108, 104.888535),
+        initialPosition: const LatLng(11.562108, 104.888535),
         useCurrentLocation: true,
         resizeToAvoidBottomInset:
             false, // only works in page mode, less flickery, remove if wrong offsets
@@ -206,7 +206,7 @@ addZoneDialog(context, {isFromUpdate}) {
                           AppToast.failToast('Enter All values ');
                         } else {
                           controller.setup2Status();
-                          controller.changetabVal(1);
+                          controller.changeTabVal(1);
                           if (isFromUpdate == true) {
                             Get.back();
                           } else {

@@ -50,10 +50,10 @@ class _MyRulesScreenState extends State<MyRulesScreen>
                   backgroundColor: AppColors.primaryBlue,
                   child: IconButton(
                     onPressed: () {
-                      controller.setdefaultStartandEndTime();
+                      controller.setDefaultStartAndEndTime();
 
                       controller.disposeThins();
-                      myRulesController.changetabVal(0);
+                      myRulesController.changeTabVal(0);
                       Get.to(() => const NewRuleScreen());
 
                       // print(controller.trigerModelList[0].zoneName);
@@ -91,13 +91,13 @@ class _MyRulesScreenState extends State<MyRulesScreen>
                         children: [
                           GestureDetector(
                             onTap: () {
-                              controller.changetabVal(0);
+                              controller.changeTabVal(0);
                             },
                             child: TabNameWidget(
                               tabName:
                                   'All(${controller.trigerModelList.length})',
                               onTap: () {},
-                              tabtcolor: controller.tabval.value == 0
+                              tabtcolor: controller.tabVal.value == 0
                                   ? AppColors.primaryBlue
                                   : themeController.isLightTheme.value
                                       ? Colors.black
@@ -106,11 +106,11 @@ class _MyRulesScreenState extends State<MyRulesScreen>
                           ),
                           GestureDetector(
                             onTap: () {
-                              controller.changetabVal(1);
+                              controller.changeTabVal(1);
                             },
                             child: TabNameWidget(
                               tabName: 'Active',
-                              tabtcolor: controller.tabval.value == 1
+                              tabtcolor: controller.tabVal.value == 1
                                   ? AppColors.primaryBlue
                                   : themeController.isLightTheme.value
                                       ? Colors.black
@@ -120,11 +120,11 @@ class _MyRulesScreenState extends State<MyRulesScreen>
                           ),
                           GestureDetector(
                             onTap: () {
-                              controller.changetabVal(2);
+                              controller.changeTabVal(2);
                             },
                             child: TabNameWidget(
                               tabName: 'Disabled',
-                              tabtcolor: controller.tabval.value == 2
+                              tabtcolor: controller.tabVal.value == 2
                                   ? AppColors.primaryBlue
                                   : themeController.isLightTheme.value
                                       ? Colors.black
@@ -168,7 +168,7 @@ class _MyRulesScreenState extends State<MyRulesScreen>
                                   ? 0
                                   : controller.trigerFiilterList.length,
                               itemBuilder: (context, index) {
-                                TrigerModel item =
+                                TriggerModel item =
                                     controller.trigerFiilterList[index];
                                 return InkWell(
                                   onTap: () {
@@ -369,8 +369,8 @@ class _MyRulesScreenState extends State<MyRulesScreen>
                                                           });
                                                     } else {
                                                       Get.to(
-                                                        () => UpdateTriger(
-                                                          trigerModelIndex:
+                                                        () => UpdateTrigger(
+                                                          triggerModelIndex:
                                                               controller
                                                                       .trigerModelList[
                                                                   index],

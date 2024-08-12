@@ -14,7 +14,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:silenttime/controllers/switchbutton_controller.dart';
 import 'package:silenttime/services/trigger_services.dart';
 
-Future<void> initializeBgService() async {
+FutureOr<void> initializeBgService() async {
   final service = FlutterBackgroundService();
 
   /// OPTIONAL, using custom notification channel id
@@ -74,7 +74,7 @@ Future<void> initializeBgService() async {
 // run app from xcode, then from xcode menu, select Simulate Background Fetch
 
 @pragma('vm:entry-point')
-Future<bool> onIosBackground(ServiceInstance service) async {
+FutureOr<bool> onIosBackground(ServiceInstance service) async {
   WidgetsFlutterBinding.ensureInitialized();
   DartPluginRegistrant.ensureInitialized();
 
@@ -189,7 +189,7 @@ reStartBGServices() {
       Get.put(SwitchButtonController());
   final service = FlutterBackgroundService();
   service.invoke("stopService");
-  Future.delayed(Duration(seconds: 1), () async {
+  Future.delayed(const Duration(seconds: 1), () async {
     service.startService();
     switchButtonController.checkStatus();
   });

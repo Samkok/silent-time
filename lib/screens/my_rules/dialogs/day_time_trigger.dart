@@ -238,7 +238,7 @@ dayTimeDialog(context) {
                                   MyRulesController myRulesController =
                                       Get.put(MyRulesController());
                                   myRulesController.setup2Status();
-                                  myRulesController.changetabVal(1);
+                                  myRulesController.changeTabVal(1);
                                   Get.back();
                                 }
                               },

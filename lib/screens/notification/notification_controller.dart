@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'package:get/state_manager.dart';
@@ -9,7 +10,7 @@ class NotificationController extends GetxController {
   List<NotificationModel> notificationList = [];
   final notificationKey = "notification";
 
-  Future<void> saveNotification(
+  FutureOr<void> saveNotification(
       {required NotificationModel notification}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -32,7 +33,7 @@ class NotificationController extends GetxController {
     }
   }
 
-  Future<void> getAllNotification() async {
+  FutureOr<void> getAllNotification() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
       var jsonString = prefs.getString(notificationKey);

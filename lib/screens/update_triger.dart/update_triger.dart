@@ -15,10 +15,10 @@ import 'update_locationPicker_screen.dart';
 import 'update_regularTime_screen.dart';
 
 // ignore: must_be_immutable
-class UpdateTriger extends StatelessWidget {
-  TrigerModel trigerModelIndex;
+class UpdateTrigger extends StatelessWidget {
+  TriggerModel triggerModelIndex;
   int ind;
-  UpdateTriger({super.key, required this.trigerModelIndex, required this.ind});
+  UpdateTrigger({super.key, required this.triggerModelIndex, required this.ind});
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +73,7 @@ class UpdateTriger extends StatelessWidget {
                                 image: const AssetImage(AppImaes.trigerlogo),
                               ),
                               CText(
-                                text: 'Triger',
+                                text: 'Trigger',
                                 fontSize: 20.sp,
                                 fontWeight: FontWeight.w500,
                                 color: AppColors.whiteColor,
@@ -144,45 +144,45 @@ class UpdateTriger extends StatelessWidget {
                       ],
                     ),
                     Container(child: () {
-                      if (controller.tabval.value == 0) {
-                        return trigerModelIndex.trigerTitle ==
+                      if (controller.tabVal.value == 0) {
+                        return triggerModelIndex.trigerTitle ==
                                 'Day/Time Trigger'
-                            ? const UpdateDayTimeTriger()
-                            : trigerModelIndex.trigerTitle == 'Location Trigger'
+                            ? const UpdateDayTimeTrigger()
+                            : triggerModelIndex.trigerTitle == 'Location Trigger'
                                 // ? const UpdateLocationPickerScreen()
                                 ? const SetLocationScreen()
-                                : trigerModelIndex.trigerTitle ==
+                                : triggerModelIndex.trigerTitle ==
                                         'Geofence Trigger'
                                     ? const SetLocationScreen()
                                     // UpdateLocationPickerScreen()
-                                    : trigerModelIndex.trigerTitle ==
+                                    : triggerModelIndex.trigerTitle ==
                                             'Day of Week/Month'
                                         ? const UpdateDayofWeekMonthTriger()
-                                        : trigerModelIndex.trigerTitle ==
+                                        : triggerModelIndex.trigerTitle ==
                                                 'Regular Interval'
                                             ? const UpdateRegularIntervalScreen()
-                                            : Text(trigerModelIndex
+                                            : Text(triggerModelIndex
                                                     .trigerTitle!.isEmpty
                                                 ? 'Empty Title'
-                                                : trigerModelIndex
+                                                : triggerModelIndex
                                                     .trigerTitle!);
-                      } else if (controller.tabval.value == 1) {
+                      } else if (controller.tabVal.value == 1) {
                         return const UpdateActionScreen();
-                      } else if (controller.tabval.value == 2) {
+                      } else if (controller.tabVal.value == 2) {
                         return const UpdateRuleScreen();
                       } else {
-                        return trigerModelIndex.trigerTitle ==
+                        return triggerModelIndex.trigerTitle ==
                                 'Day/Time Trigger'
-                            ? UpdateDayTimeTriger()
-                            : trigerModelIndex.trigerTitle == 'Location Trigger'
+                            ? const UpdateDayTimeTrigger()
+                            : triggerModelIndex.trigerTitle == 'Location Trigger'
                                 ? const Text('Location Trigger')
-                                : trigerModelIndex.trigerTitle ==
+                                : triggerModelIndex.trigerTitle ==
                                         'Geofence Trigger'
                                     ? const Text('Geofence Trigger')
-                                    : trigerModelIndex.trigerTitle ==
+                                    : triggerModelIndex.trigerTitle ==
                                             'Day of Week/Month'
                                         ? const Text('Day of Week/Month')
-                                        : trigerModelIndex.trigerTitle ==
+                                        : triggerModelIndex.trigerTitle ==
                                                 'Regular Interval'
                                             ? const Text('Day of Week/Month')
                                             : const Text('Day/Time Trigger');

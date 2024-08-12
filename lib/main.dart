@@ -19,7 +19,7 @@ import 'package:timezone/data/latest.dart' as tz;
 //   );
 // }
 
-Future<void> main() async {
+FutureOr<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   tz.initializeTimeZones();
   await initializeBgService();
@@ -60,7 +60,7 @@ class _MyAppState extends State<MyApp> {
     SharedPreferences pref = await SharedPreferences.getInstance();
     var permissions = pref.getBool('permission');
     if (permissions == true) {
-      myRulesController.startLocationTmer();
+      myRulesController.startLocationTimer();
     }
   }
 

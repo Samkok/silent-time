@@ -239,7 +239,7 @@ class UpdateRuleScreen extends StatelessWidget {
                         log("controller.fromTime${controller.fromTime}");
                         log('controller.toTime${controller.toTime}');
 
-                        var todo = TrigerModel(
+                        var todo = TriggerModel(
                           trigerCreatedDateTime: DateTime.now(),
                           trigerAction: controller.trigerAction.value,
                           trigerDayName: dayname,

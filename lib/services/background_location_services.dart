@@ -38,39 +38,39 @@ class BackgroundLocationService {
   //   bgLocation.BackgroundLocation.stopLocationService();
   // }
 
-  getCurrentLocationm() async {
-    Location location = new Location();
+  getCurrentLocation() async {
+    Location location = Location();
 
-    bool _serviceEnabled;
-    PermissionStatus _permissionGranted;
-    LocationData _locationData;
+    bool serviceEnabled;
+    PermissionStatus permissionGranted;
+    LocationData locationData;
     SharedPreferences pref = await SharedPreferences.getInstance();
 
-    _serviceEnabled = await location.serviceEnabled();
-    if (!_serviceEnabled) {
-      _serviceEnabled = await location.requestService();
-      if (!_serviceEnabled) {
+    serviceEnabled = await location.serviceEnabled();
+    if (!serviceEnabled) {
+      serviceEnabled = await location.requestService();
+      if (!serviceEnabled) {
         return;
       }
     }
 
-    _permissionGranted = await location.hasPermission();
-    if (_permissionGranted == PermissionStatus.denied) {
-      _permissionGranted = await location.requestPermission();
-      if (_permissionGranted != PermissionStatus.granted) {
+    permissionGranted = await location.hasPermission();
+    if (permissionGranted == PermissionStatus.denied) {
+      permissionGranted = await location.requestPermission();
+      if (permissionGranted != PermissionStatus.granted) {
         return;
       }
     }
     location.changeSettings(interval: 0, distanceFilter: 0.0);
     location.enableBackgroundMode(enable: true);
 
-    _locationData = await location.getLocation();
+    locationData = await location.getLocation();
 
-    double lat = _locationData.latitude ?? 0.0;
-    double long = _locationData.longitude ?? 0.0;
+    double lat = locationData.latitude ?? 0.0;
+    double long = locationData.longitude ?? 0.0;
 
     location.onLocationChanged.listen((event) {
-      log("onLocationChanged: ${event}");
+      log("onLocationChanged: $event");
       lat = event.latitude ?? 0.0;
       long = event.longitude ?? 0.0;
     });

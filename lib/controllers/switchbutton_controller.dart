@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:silenttime/models/triger_model.dart';
 import 'package:silenttime/screens/my_rules/controller/myrules_controller.dart';
-import 'package:silenttime/screens/my_rules/pages/location_picker.dart';
 import 'package:silenttime/services/background_location_services.dart';
 import 'package:silenttime/services/background_services.dart';
 import 'package:silenttime/utils/toast.dart';
@@ -14,7 +13,7 @@ class SwitchButtonController extends GetxController {
   RxBool pressedBool = true.obs;
   final service = FlutterBackgroundService();
 
-  Future<void> changeStatus(bool value) async {
+  FutureOr<void> changeStatus(bool value) async {
     MyRulesController myRulesController = Get.put(MyRulesController());
 
     // pressedBool.value = value;
@@ -29,15 +28,15 @@ class SwitchButtonController extends GetxController {
       stopServices();
     } else {
       var triggers = await checkTriggerisEmpty();
-      print('triggers: ${triggers}');
+      print('triggers: $triggers');
 
       if (triggers == false) {
         pressedBool.value = true;
 
         if (myRulesController.isPermissionEnabled.value) {
-          myRulesController.startLocationTmer();
+          myRulesController.startLocationTimer();
         }
-        await BackgroundLocationService().getCurrentLocationm();
+        await BackgroundLocationService().getCurrentLocation();
 
         await initializeBgService();
 
@@ -53,8 +52,8 @@ class SwitchButtonController extends GetxController {
     var jsonString = prefs.getString("triggers");
     if (jsonString != null) {
       Iterable iterable = json.decode(jsonString);
-      List<TrigerModel> trigerModelList = List<TrigerModel>.from(
-          iterable.map((model) => TrigerModel.fromJson(model)));
+      List<TriggerModel> trigerModelList = List<TriggerModel>.from(
+          iterable.map((model) => TriggerModel.fromJson(model)));
 
       if (trigerModelList.isEmpty) {
         return true;
@@ -66,7 +65,7 @@ class SwitchButtonController extends GetxController {
     }
   }
 
-  Future<void> checkStatus() async {
+  FutureOr<void> checkStatus() async {
     var isRunning = await service.isRunning();
     if (isRunning) {
       pressedBool.value = true;

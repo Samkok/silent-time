@@ -172,7 +172,7 @@ class ActionScreen extends StatelessWidget {
                 InkWell(
                   onTap: () {
                     controller.setup3Status();
-                    controller.changetabVal(2);
+                    controller.changeTabVal(2);
                   },
                   child: Container(
                     margin: EdgeInsets.only(top: 180.h),

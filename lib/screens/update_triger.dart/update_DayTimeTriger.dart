@@ -17,14 +17,14 @@ String formatTimeOfDayToString(TimeOfDay time) {
 }
 
 // ignore: must_be_immutable
-class UpdateDayTimeTriger extends StatefulWidget {
-  const UpdateDayTimeTriger({super.key});
+class UpdateDayTimeTrigger extends StatefulWidget {
+  const UpdateDayTimeTrigger({super.key});
 
   @override
-  State<UpdateDayTimeTriger> createState() => _UpdateDayTimeTrigerState();
+  State<UpdateDayTimeTrigger> createState() => _UpdateDayTimeTriggerState();
 }
 
-class _UpdateDayTimeTrigerState extends State<UpdateDayTimeTriger> {
+class _UpdateDayTimeTriggerState extends State<UpdateDayTimeTrigger> {
   // TrigerModel trigerModelndex;
   Widget dayCheckBox(
       {required name, required value, required Function(bool?)? onChanged}) {

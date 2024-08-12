@@ -99,7 +99,7 @@ class _SetLocationScreenState extends State<SetLocationScreen> {
     _getCurrentLocation();
   }
 
-  Future<void> _getCurrentLocation() async {
+  FutureOr<void> _getCurrentLocation() async {
     try {
       // LocationData locationData = await _location.getLocation();
       setState(() {

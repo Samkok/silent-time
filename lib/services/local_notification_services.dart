@@ -1,4 +1,6 @@
 // ignore_for_file: unused_local_variable, prefer_const_constructors
+import 'dart:async';
+
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
 
@@ -32,7 +34,7 @@ class FCMServices {
     }
   }
 
-  static Future<void> scheduleNotification() async {
+  static FutureOr<void> scheduleNotification() async {
     try {
       final FlutterLocalNotificationsPlugin notificationsPlugin =
           FlutterLocalNotificationsPlugin();

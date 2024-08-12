@@ -1,4 +1,4 @@
-class TrigerModel {
+class TriggerModel {
   String? trigerZoneName;
   String? trigerTitle;
   String? trigerAction;
@@ -38,7 +38,7 @@ class TrigerModel {
   int? rulePopupWhenLounch;
   bool isTriggered;
 
-  TrigerModel({
+  TriggerModel({
     this.trigerTitle,
     this.trigerAction,
     this.trigerStateONOFF,
@@ -104,8 +104,8 @@ class TrigerModel {
     };
   }
 
-  static TrigerModel fromJson(Map<String, dynamic> json) {
-    return TrigerModel(
+  static TriggerModel fromJson(Map<String, dynamic> json) {
+    return TriggerModel(
       trigerTitle: json['trigerTitle'],
       trigerAction: json['trigerAction'],
       trigerStateONOFF: json['trigerStateONOFF'],

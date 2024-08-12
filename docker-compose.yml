@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  flutter-app:
+    image: silent-time
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+    environment:
+      - JAVA_OPTS=-Xms512m -Xmx1024m
+      - JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+    ports:
+      - "8080:8080"
+    working_dir: /app
+    entrypoint: ["/bin/bash"]
