@@ -28,16 +28,16 @@ jobs:
         uses: docker/setup-buildx-action@v2
 
       - name: Install Docker Compose
-          run: sudo apt-get update && sudo apt-get install docker-compose -y
+        run: sudo apt-get update && sudo apt-get install docker-compose -y
 
 
       - name: Build Docker image
-          run: |
+        run: |
             docker build -t silent-time:latest .
 
       - name: Build and run services with Docker Compose
-          run: |
-            docker-compose -f docker-compose.yml up --build -d
+        run: |
+          docker-compose -f docker-compose.yml up --build -d
 
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
@@ -55,7 +55,7 @@ jobs:
 #          echo "storeFile=key.jks" >> android/key.properties
 
       - name: Decode keystore
-          run: echo $KEYSTORE_BASE64 | base64 --decode > android/app/silent-time.jks
+        run: echo $KEYSTORE_BASE64 | base64 --decode > android/app/silent-time.jks
 
       - name: Build APK
         run: flutter build apk --release
