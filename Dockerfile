@@ -15,6 +15,7 @@ RUN apt-get install -y --no-install-recommends \
     git \
     unzip \
     xz-utils \
+    openjdk-11-jdk \
     libgl1-mesa-glx \
     libgl1 \
     libglx-mesa0 \
