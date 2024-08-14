@@ -59,6 +59,9 @@ jobs:
           KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
         run: |
           echo "$KEYSTORE_BASE64" | base64 --decode > android/app/silent-time.jks
+          
+      - name: Check java location
+        run: ls -la /usr/lib/jvm/
 
       - name: Build APK
         run: flutter build apk --release
