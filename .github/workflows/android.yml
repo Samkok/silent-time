@@ -30,7 +30,6 @@ jobs:
       - name: Install Docker Compose
         run: sudo apt-get update && sudo apt-get install docker-compose -y
 
-
       - name: Build Docker image
         run: |
             docker build -t silent-time:latest .
@@ -59,12 +58,6 @@ jobs:
           KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
         run: |
           echo "$KEYSTORE_BASE64" | base64 --decode > android/app/silent-time.jks
-          
-      - name: Check java location
-        run: ls -la /usr/lib/jvm/
-
-      - name: Check docker
-        run: docker images
 
       - name: Build APK
         run: flutter build apk --release
