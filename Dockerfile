@@ -44,7 +44,7 @@ ENV PATH="$ANDROID_HOM/cmdline-tools/latest/bin:$PATH"
 ENV PATH="$ANDROID_HOME/platform-tools:$PATH"
 
 # Config andriod sdk to flutter
-RUN flutter config --android-sdk $ANDROID_HOME
+RUN flutter config --android-sdk /opt/android-sdk
 
 # Set up Git to allow dubious ownership globally
 RUN git config --global --add safe.directory '*'
