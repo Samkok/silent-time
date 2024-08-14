@@ -1,6 +1,5 @@
 # Use an official Ubuntu base image
 FROM ubuntu:20.04
-FROM cirrusci/flutter:3.19.0
 
 # Set environment variables to avoid interactive prompts during installation
 ENV DEBIAN_FRONTEND=noninteractive
@@ -31,6 +30,18 @@ RUN apt-get install -y \
     libgtk-3-dev \
     && update-ca-certificates \
     && rm -rf /var/lib/apt/lists/*
+
+# Download and install the Android SDK
+RUN mkdir -p /opt/android-sdk && cd /opt/android-sdk \
+    && curl -o commandlinetools.zip https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip \
+    && unzip commandlinetools.zip -d cmdline-tools && rm commandlinetools.zip \
+    && yes | cmdline-tools/cmdline-tools/bin/sdkmanager --licenses \
+    && cmdline-tools/cmdline-tools/bin/sdkmanager "platform-tools" "platforms;android-30"
+
+# Set environment variables for Android SDK
+ENV ANDROID_HOME="/opt/android-sdk"
+ENV PATH="$ANDROID_HOM/cmdline-tools/latest/bin:$PATH"
+ENV PATH="$ANDROID_HOME/platform-tools:$PATH"
 
 # Set up Git to allow dubious ownership globally
 RUN git config --global --add safe.directory '*'
