@@ -21,7 +21,12 @@ RUN apt-get install -y --no-install-recommends \
     libglx-mesa0 \
     libcurl4 \
     perl \
+    ca-certificates-java \
     ca-certificates \
+    clang \
+    cmake \
+    ninja-build \
+    pkg-config \
     && update-ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
