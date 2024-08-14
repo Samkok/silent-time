@@ -63,6 +63,9 @@ jobs:
       - name: Check java location
         run: ls -la /usr/lib/jvm/
 
+      - name: Check docker
+        run: docker images
+
       - name: Build APK
         run: flutter build apk --release
 
