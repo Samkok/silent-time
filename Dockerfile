@@ -43,9 +43,6 @@ ENV ANDROID_HOME="/opt/android-sdk"
 ENV PATH="$ANDROID_HOM/cmdline-tools/latest/bin:$PATH"
 ENV PATH="$ANDROID_HOME/platform-tools:$PATH"
 
-# Config andriod sdk to flutter
-RUN flutter config --android-sdk /opt/android-sdk
-
 # Set up Git to allow dubious ownership globally
 RUN git config --global --add safe.directory '*'
 
@@ -63,6 +60,9 @@ RUN flutter precache
 
 # Enable Flutter Web
 RUN flutter config --enable-web
+
+# Config andriod sdk to flutter
+RUN flutter config --android-sdk /opt/android-sdk
 
 # Run basic check to download additional binaries and ensure everything is set up
 RUN flutter doctor -v
