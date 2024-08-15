@@ -66,6 +66,9 @@ jobs:
       - name: Build APK
         run: flutter build apk --release
 
+      - name: Check build location
+        run: tree ../
+
       - name: Decode service account JSON
         env:
           SERVICE_ACCOUNT_JSON: ${{ secrets.SERVICE_ACCOUNT_JSON }}
@@ -76,7 +79,7 @@ jobs:
         with:
           serviceAccountJsonPlainText: service-account.json
           packageName: 'com.superiordev.silenttime'  # Replace with your app's package name
-          releaseFile: build/app/outputs/flutter-apk/app-release.apk  # Path to APK or AAB
+          releaseFiles: build/app/outputs/flutter-apk/app-release.apk  # Path to APK or AAB
           track: production  # Use "alpha" or "beta" for testing tracks
           status: completed  # Can be "draft" or "completed"
 
