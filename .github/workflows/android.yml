@@ -58,7 +58,10 @@ jobs:
         run: pwd
 
       - name: Check location tree
-        run: tree ../../
+        run: tree ../
+
+      - name: Create location for Keys
+        run: mkdir -p android/app/keys
 
       - name: Decode and Save keystore
         env:
