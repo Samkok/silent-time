@@ -28,6 +28,7 @@ RUN apt-get install -y \
     ninja-build \
     pkg-config \
     libgtk-3-dev \
+    tree \
     && update-ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 

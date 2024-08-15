@@ -54,6 +54,12 @@ jobs:
 #          echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> android/key.properties
 #          echo "storeFile=key.jks" >> android/key.properties
 
+      - name: Check working directory
+        run: pwd
+
+      - name: Check location tree
+        run: tree ../../
+
       - name: Decode and Save keystore
         env:
           KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
