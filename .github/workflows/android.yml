@@ -64,14 +64,14 @@ jobs:
           echo "$KEYSTORE_BASE64" | base64 --decode > android/app/keys/silent_time.jks
 
       - name: Build APK
-        run: flutter build apk --release
+        run: flutter build appbundle --release
 
       - name: Upload to Play Store
         uses: r0adkll/upload-google-play@v1
         with:
           serviceAccountJsonPlainText:  ${{ secrets.SERVICE_ACCOUNT_JSON }}
           packageName: 'com.superiordev.silenttime'  # Replace with your app's package name
-          releaseFiles: build/app/outputs/flutter-apk/app-release.apk  # Path to APK or AAB
+          releaseFiles: build/app/outputs/bundle/release/app-release.aab  # Path to APK or AAB
           track: production  # Use "alpha" or "beta" for testing tracks
           status: completed  # Can be "draft" or "completed"
 
