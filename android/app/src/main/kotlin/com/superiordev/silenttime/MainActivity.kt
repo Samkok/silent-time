@@ -1,4 +1,4 @@
-package com.example.silenttime
+package com.superiordev.silenttime
 
 import io.flutter.embedding.android.FlutterActivity
 
