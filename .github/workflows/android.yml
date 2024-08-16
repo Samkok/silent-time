@@ -66,10 +66,14 @@ jobs:
       - name: Build APK
         run: flutter build apk --release
 
+      - name: Check service account
+        run: echo ${{ secrets.SERVICE_ACCOUNT_JSON }}
+
       - name: Decode service account JSON
-        env:
-          SERVICE_ACCOUNT_JSON: ${{ secrets.SERVICE_ACCOUNT_JSON }}
-        run: echo "$SERVICE_ACCOUNT_JSON" | base64 --decode > service-account.json
+        run: echo ${{ secrets.SERVICE_ACCOUNT_JSON }} | base64 --decode > service-account.json
+
+      - name: Show service account
+        run: cat service-account.json
 
       - name: Upload to Play Store
         uses: r0adkll/upload-google-play@v1
