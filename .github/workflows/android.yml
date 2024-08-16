@@ -66,14 +66,6 @@ jobs:
       - name: Build APK
         run: flutter build apk --release
 
-      - name: Check build location
-        run: tree ../
-
-      - name: Show encoded service account
-        env:
-          SERVICE_ACCOUNT_JSON: ${{ secrets.SERVICE_ACCOUNT_JSON }}
-        run: echo "$SERVICE_ACCOUNT_JSON"
-
       - name: Decode service account JSON
         env:
           SERVICE_ACCOUNT_JSON: ${{ secrets.SERVICE_ACCOUNT_JSON }}
@@ -82,7 +74,7 @@ jobs:
       - name: Upload to Play Store
         uses: r0adkll/upload-google-play@v1
         with:
-          serviceAccountJsonPlainText: service-account.json
+          serviceAccountJsonPlainText: $(cat service-account.json)
           packageName: 'com.superiordev.silenttime'  # Replace with your app's package name
           releaseFiles: build/app/outputs/flutter-apk/app-release.apk  # Path to APK or AAB
           track: production  # Use "alpha" or "beta" for testing tracks
