@@ -37,7 +37,7 @@ RUN mkdir -p /opt/android-sdk && cd /opt/android-sdk \
     && curl -o commandlinetools.zip https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip \
     && unzip commandlinetools.zip -d cmdline-tools && rm commandlinetools.zip \
     && yes | cmdline-tools/cmdline-tools/bin/sdkmanager --licenses \
-    && cmdline-tools/cmdline-tools/bin/sdkmanager "platform-tools" "platforms;android-30"
+    && cmdline-tools/cmdline-tools/bin/sdkmanager "platform-tools" "platforms;android-31" "platforms;android-32" "platforms;android-30"
 
 # Set environment variables for Android SDK
 ENV ANDROID_HOME="/opt/android-sdk"
