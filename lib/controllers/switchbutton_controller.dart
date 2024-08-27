@@ -1,12 +1,11 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:silenttime/models/triger_model.dart';
 import 'package:silenttime/screens/my_rules/controller/myrules_controller.dart';
 import 'package:silenttime/services/background_location_services.dart';
 import 'package:silenttime/services/background_services.dart';
+import 'package:silenttime/services/shared_preference_service.dart';
 import 'package:silenttime/utils/toast.dart';
 
 class SwitchButtonController extends GetxController {
@@ -27,7 +26,7 @@ class SwitchButtonController extends GetxController {
     if (value == false) {
       stopServices();
     } else {
-      var triggers = await checkTriggerisEmpty();
+      var triggers = await checkTriggerIsEmpty();
       print('triggers: $triggers');
 
       if (triggers == false) {
@@ -47,21 +46,12 @@ class SwitchButtonController extends GetxController {
     }
   }
 
-  checkTriggerisEmpty() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var jsonString = prefs.getString("triggers");
-    if (jsonString != null) {
-      Iterable iterable = json.decode(jsonString);
-      List<TriggerModel> trigerModelList = List<TriggerModel>.from(
-          iterable.map((model) => TriggerModel.fromJson(model)));
-
-      if (trigerModelList.isEmpty) {
-        return true;
-      } else {
-        return false;
-      }
-    } else {
+  checkTriggerIsEmpty() async {
+    List<TriggerModel> triggerModelList = await SharedPreferenceService.getTriggers();
+    if (triggerModelList.isEmpty) {
       return true;
+    } else {
+      return false;
     }
   }
 

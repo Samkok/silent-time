@@ -10,7 +10,7 @@ RUN apt-get update && \
     apt-get dist-upgrade -y
 
 # Install dependencies
-RUN apt-get install -y \
+RUN apt-get install -y --fix-missing \
     curl \
     git \
     unzip \

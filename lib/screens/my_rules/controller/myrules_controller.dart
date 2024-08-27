@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_mute/flutter_mute.dart';
@@ -11,6 +10,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:silenttime/services/background_location_services.dart';
 import 'package:silenttime/services/background_services.dart';
+import 'package:silenttime/services/shared_preference_service.dart';
 import 'package:silenttime/utils/toast.dart';
 import '../../../controllers/switchbutton_controller.dart';
 import '../../../models/triger_model.dart';
@@ -636,9 +636,10 @@ class MyRulesController extends GetxController {
   final triggerKey = "triggers";
 
   FutureOr<void> saveTriggers() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // SharedPreferences prefs = await SharedPreferences.getInstance();
+    // await prefs.setString(triggerKey, json.encode(jsonList));
     List jsonList = trigerModelList.map((trigger) => trigger.toJson()).toList();
-    await prefs.setString(triggerKey, json.encode(jsonList));
+    await SharedPreferenceService.setTriggerValue(jsonList);
     reStartBGServices();
 
     if (isPermissionEnabled.value && timer == null) {
@@ -654,11 +655,10 @@ class MyRulesController extends GetxController {
     update();
     // log('trigerModelList   length After = ${trigerModelList.length} ');
     log("Update   2..................${triger.trigerDayName}");
-    SharedPreferences prefs = await SharedPreferences.getInstance();
     trigerModelList.add(triger);
     log('trigerModelList   length  After Add= ${trigerModelList.length} ');
 
-    await prefs.setString(triggerKey, json.encode(trigerModelList));
+    await SharedPreferenceService.setTriggerValue(trigerModelList);
     getAllTriggers();
     reStartBGServices();
 
@@ -666,13 +666,7 @@ class MyRulesController extends GetxController {
   }
 
   FutureOr<void> getAllTriggers() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var jsonString = prefs.getString(triggerKey);
-    if (jsonString != null) {
-      Iterable iterable = json.decode(jsonString);
-      trigerModelList = List<TriggerModel>.from(
-          iterable.map((model) => TriggerModel.fromJson(model)));
-    }
+    trigerModelList = await SharedPreferenceService.getTriggers();
     update();
   }
 
@@ -720,8 +714,7 @@ class MyRulesController extends GetxController {
     //       trigerModelList[i].trigerStatus!;
     // }
 
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString(triggerKey, json.encode(trigerModelList));
+    await SharedPreferenceService.setTriggerValue(trigerModelList);
     update();
     reStartBGServices();
   }

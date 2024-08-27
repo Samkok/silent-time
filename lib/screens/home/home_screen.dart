@@ -5,6 +5,7 @@ import 'package:flutter_mute/flutter_mute.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:logging/logging.dart';
 import 'package:silenttime/controllers/switchbutton_controller.dart';
 import 'package:silenttime/screens/my_rules/pages/new_rule_screen.dart';
 import 'package:silenttime/services/background_location_services.dart';
@@ -32,8 +33,11 @@ class _HomeScreenState extends State<HomeScreen> {
   MyRulesController myRulesController = Get.put(MyRulesController());
   SwitchButtonController switcherController = Get.put(SwitchButtonController());
 
+  final Logger _logger = Logger(const HomeScreen().toString());
+
   @override
   void initState() {
+    _logger.info("START");
     myRulesController.getAllTriggers();
     myRulesController.checkPermission();
     BackgroundLocationService().getCurrentLocation();
@@ -407,7 +411,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                           context) {
                                                         return CustomDialog(
                                                           title:
-                                                              'Are you sure you want to delete this Triger ',
+                                                              'Are you sure you want to delete this Trigger ',
                                                           onPress: () {
                                                             controller.deleteTrigger(index);
                                                           },

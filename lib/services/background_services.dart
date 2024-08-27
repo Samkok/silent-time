@@ -12,7 +12,10 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:silenttime/controllers/switchbutton_controller.dart';
+import 'package:silenttime/services/shared_preference_service.dart';
 import 'package:silenttime/services/trigger_services.dart';
+
+import '../models/triger_model.dart';
 
 FutureOr<void> initializeBgService() async {
   final service = FlutterBackgroundService();
@@ -53,7 +56,7 @@ FutureOr<void> initializeBgService() async {
       isForegroundMode: true,
 
       notificationChannelId: 'my_foreground',
-      initialNotificationTitle: 'AWESOME SERVICE',
+      initialNotificationTitle: 'Silent Time Service',
       initialNotificationContent: 'Initializing',
       foregroundServiceNotificationId: 888,
     ),
@@ -184,13 +187,26 @@ stopBGServices() {
   service.invoke("stopService");
 }
 
+Future<int> enumTriggers() async {
+  int count = 0;
+  List<TriggerModel> triggerList = await SharedPreferenceService.getTriggers();
+  triggerList
+      .where((e) => e.trigerStatus == true)
+      .forEach((_) {
+        count++;
+      });
+  return count;
+}
+
 reStartBGServices() {
   SwitchButtonController switchButtonController =
       Get.put(SwitchButtonController());
   final service = FlutterBackgroundService();
   service.invoke("stopService");
   Future.delayed(const Duration(seconds: 1), () async {
-    service.startService();
+    if (await enumTriggers() != 0) {
+      service.startService();
+    }
     switchButtonController.checkStatus();
   });
 }

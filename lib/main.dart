@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:silenttime/controllers/theme_controller.dart';
 import 'dart:async';
 import 'package:silenttime/services/background_services.dart';
+import 'package:silenttime/services/file_logger.dart';
 import 'package:timezone/data/latest.dart' as tz;
 
 // @pragma('vm:entry-point')
@@ -24,6 +25,7 @@ FutureOr<void> main() async {
   tz.initializeTimeZones();
   await initializeBgService();
   await getApplicationDocumentsDirectory();
+  await FileLogger().init();
   // await BackgroundLocationTrackerManager.initialize(
   //   backgroundCallback,
   //   config: const BackgroundLocationTrackerConfig(

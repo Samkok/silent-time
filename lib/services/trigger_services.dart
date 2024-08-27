@@ -1,19 +1,15 @@
 // ignore_for_file: prefer_conditional_assignment, unnecessary_null_comparison
 
 import 'dart:async';
-import 'dart:convert';
 import 'dart:developer';
 
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:location/location.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:silenttime/main.dart';
 import 'package:silenttime/models/triger_model.dart';
-import 'package:silenttime/services/background_location_services.dart';
 import 'package:silenttime/services/get_distance.dart';
+import 'package:silenttime/services/shared_preference_service.dart';
 import 'package:silenttime/services/sound_services.dart';
 
 import '../controllers/switchbutton_controller.dart';
@@ -21,31 +17,46 @@ import '../controllers/switchbutton_controller.dart';
 class TriggerServices {
   initTriggerMethods() async {
     var currentTime = getCurrentTime();
-    log('currentTime: ${currentTime}');
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    log('currentTime: $currentTime');
     SwitchButtonController switcherController =
         Get.put(SwitchButtonController());
 
-    var jsonString = prefs.getString("triggers");
-    if (jsonString != null) {
-      Iterable iterable = json.decode(jsonString);
-      List<TriggerModel> trigerList = List<TriggerModel>.from(
-          iterable.map((model) => TriggerModel.fromJson(model)));
-      print(
-          "switcherController.pressedBool.value: ${switcherController.pressedBool.value}");
+    List<TriggerModel> triggerList = await SharedPreferenceService.getTriggers();
+    print(
+        "switcherController.pressedBool.value: ${switcherController.pressedBool.value}");
 
-      // Check and Call the Methods
-      if (switcherController.pressedBool.value) {
-        for (var triger in trigerList) {
-          log("${triger.trigerTitle.toString()} :  ${triger.trigerAction.toString()} | ${triger.trigerFromTimeHour}:${triger.trigerFromTimeMint} | ${triger.trigerToTimeHour}:${triger.trigerToTimeMint} | ${triger.trigerStatus} | ${triger.isTriggered} ");
-          if (triger.trigerStatus == true) {
-            processTriggers(triger);
-          }
+    // Check and Call the Methods
+    if (switcherController.pressedBool.value) {
+      for (var trigger in triggerList) {
+        log("${trigger.trigerTitle.toString()} :  ${trigger.trigerAction.toString()} | ${trigger.trigerFromTimeHour}:${trigger.trigerFromTimeMint} | ${trigger.trigerToTimeHour}:${trigger.trigerToTimeMint} | ${trigger.trigerStatus} | ${trigger.isTriggered} ");
+        if (trigger.trigerStatus == true) {
+          processTriggers(trigger);
         }
-      } else {
-        log("Triggers Swtch OFF.......!");
       }
+    } else {
+      log("Triggers Switch OFF.......!");
     }
+
+    // var jsonString = prefs.getString("triggers");
+    // if (jsonString != null) {
+    //   Iterable iterable = json.decode(jsonString);
+    //   List<TriggerModel> trigerList = List<TriggerModel>.from(
+    //       iterable.map((model) => TriggerModel.fromJson(model)));
+    //   print(
+    //       "switcherController.pressedBool.value: ${switcherController.pressedBool.value}");
+    //
+    //   // Check and Call the Methods
+    //   if (switcherController.pressedBool.value) {
+    //     for (var triger in trigerList) {
+    //       log("${triger.trigerTitle.toString()} :  ${triger.trigerAction.toString()} | ${triger.trigerFromTimeHour}:${triger.trigerFromTimeMint} | ${triger.trigerToTimeHour}:${triger.trigerToTimeMint} | ${triger.trigerStatus} | ${triger.isTriggered} ");
+    //       if (triger.trigerStatus == true) {
+    //         processTriggers(triger);
+    //       }
+    //     }
+    //   } else {
+    //     log("Triggers Swtch OFF.......!");
+    //   }
+    // }
   }
 
   void processTriggers(TriggerModel triger) {
@@ -79,10 +90,10 @@ class TriggerServices {
     LatLng destiLatlng = LatLng(double.parse(triger.locationLat.toString()),
         double.parse(triger.locationLong.toString()));
     var distance = await calculateDistanceInMeters(currentLatlng, destiLatlng);
-    print('distance: ${distance}');
+    print('distance: $distance');
 
     double radius = double.parse(triger.zoneRadious.toString());
-    print('radius: ${radius}');
+    print('radius: $radius');
 
     if (distance < radius && triger.isTriggered == false) {
       processMethods(triger, triger.trigerAction.toString());
@@ -102,10 +113,10 @@ class TriggerServices {
         double.parse(triger.locationLong.toString()));
 
     var distance = await calculateDistanceInMeters(currentLatlng, destiLatlng);
-    print('distance: ${distance}');
+    print('distance: $distance');
 
     double radius = double.parse(triger.zoneRadious.toString());
-    print('radius: ${radius}');
+    print('radius: $radius');
 
     if (triger.areaEntered == true) {
       if (distance < radius && triger.isTriggered == false) {
@@ -132,8 +143,8 @@ class TriggerServices {
     var triggerEndTime =
         "${triger.trigerToTimeHour}:${triger.trigerToTimeMint}:00";
     String currentDayName = getCurrentDayName();
-    log('currentTime: ${currentTime}');
-    log('triggerStartTime: ${triggerStartTime}');
+    log('currentTime: $currentTime');
+    log('triggerStartTime: $triggerStartTime');
 
     if (triger.trigerDayName!.contains(currentDayName)) {
       if (currentTime == triggerStartTime && triger.isTriggered == false) {
@@ -152,7 +163,7 @@ class TriggerServices {
     int currentDay = now.day;
     String currentMonth = DateFormat('MMMM').format(now);
     print("currentDay: $currentDay");
-    print('currentMonth: ${currentMonth}');
+    print('currentMonth: $currentMonth');
 
     var currentTime = getCurrentTime();
     var triggerStartTime =
@@ -205,13 +216,13 @@ class TriggerServices {
   }
 
   void processMethods(
-    TriggerModel triger,
+    TriggerModel trigger,
     String value,
   ) {
     if (value == "") {
-      SaveisTriggerTrue(triger, false);
+      saveIsTriggerTrue(trigger, false);
     } else {
-      SaveisTriggerTrue(triger, true);
+      saveIsTriggerTrue(trigger, true);
     }
     switch (value) {
       case 'Do-Not-Disturb':
@@ -269,15 +280,9 @@ class TriggerServices {
     return dayName;
   }
 
-  SaveisTriggerTrue(TriggerModel triger, isTriggered) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var jsonString = prefs.getString("triggers");
-    Iterable iterable = json.decode(jsonString!);
-    List<TriggerModel> trigerList = List<TriggerModel>.from(
-        iterable.map((model) => TriggerModel.fromJson(model)));
-
-    //
-    trigerList
+  saveIsTriggerTrue(TriggerModel triger, isTriggered) async {
+    List<TriggerModel> triggerList = await SharedPreferenceService.getTriggers();
+    triggerList
         .where((e) =>
             e.trigerTitle == triger.trigerTitle &&
             e.trigerFromTimeHour == triger.trigerFromTimeHour &&
@@ -286,7 +291,7 @@ class TriggerServices {
       element.isTriggered = isTriggered;
       log('element.isTriggered: ${element.isTriggered}');
     });
-    List jsonList = trigerList.map((trigger) => trigger.toJson()).toList();
-    await prefs.setString("triggers", json.encode(jsonList));
+    List jsonList = triggerList.map((trigger) => trigger.toJson()).toList();
+    await SharedPreferenceService.setTriggerValue(jsonList);
   }
 }
