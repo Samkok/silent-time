@@ -2,17 +2,16 @@ workflows:
   android:
     name: Build Android App
     environment:
-      flutter: stable
+      flutter: 3.13.0
       java: 11
+      android_signing:
+        - silent_key
     scripts:
       - name: Install dependencies
         script: |
           flutter pub get
       - name: Build Android AAB
         script: |
-          flutter build appbundle --release --build-name=1.0.0 --build-number=1 \
-            --dart-define=CM_KEYSTORE_PASSWORD=$CM_KEYSTORE_PASSWORD \
-            --dart-define=CM_KEY_ALIAS=$CM_KEY_ALIAS \
-            --dart-define=CM_KEY_PASSWORD=$CM_KEY_PASSWORD
+          flutter build appbundle --release --build-name=1.0.0 --build-number=1
     artifacts:
       - build/app/outputs/bundle/release/*.aab
