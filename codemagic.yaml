@@ -2,7 +2,7 @@ workflows:
   android:
     name: Build Android App
     environment:
-      flutter: 3.13.0
+      flutter: 3.19.0
       java: 11
       android_signing:
         - silent_key
