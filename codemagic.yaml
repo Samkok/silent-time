@@ -4,8 +4,6 @@ workflows:
     environment:
       flutter: stable
       java: 11
-      android:
-        image: "default"
     scripts:
       - name: Install dependencies
         script: |
