@@ -13,5 +13,15 @@ workflows:
       - name: Build Android AAB
         script: |
           flutter build appbundle --release --build-name=1.0.$(($BUILD_NUMBER)) --build-number=$BUILD_NUMBER
+    cache:
+      cache_paths:
+        - $HOME/.gradle/caches
+        - $CM_BUILD_DIR/node_modules
+        - $CM_BUILD_DIR/platforms
+        - $CM_BUILD_DIR/hooks
     artifacts:
       - build/app/outputs/bundle/release/*.aab
+    publishing:
+      email:
+        recipients:
+          - lakpriya1024@gmail.com
