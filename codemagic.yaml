@@ -42,13 +42,12 @@ workflows:
 
   ios:
     name: Build iOS App
+    integrations:
+      app_store_connect: SilentTime
     environment:
-      integrations:
-        app_store_connect: SilentTime
-      environment:
-        ios_signing:
-          distribution_type: app_store
-          bundle_identifier: com.silenttime.silenttime
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.silenttime.silenttime
       vars:
         APP_STORE_APPLE_ID: 6738434563
       flutter: 3.19.0
@@ -82,6 +81,6 @@ workflows:
         submit_to_testflight: true
         beta_groups:
           - App Store Connect Users
-    email:
-      recipients:
-        - lakpriya1024@gmail.com
+      email:
+        recipients:
+          - lakpriya1024@gmail.com
