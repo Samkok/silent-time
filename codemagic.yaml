@@ -6,6 +6,8 @@ workflows:
       java: 11
       android_signing:
         - silent_key
+      groups:
+        - google_credentials
     scripts:
       - name: Install dependencies
         script: |
@@ -22,6 +24,9 @@ workflows:
     artifacts:
       - build/app/outputs/bundle/release/*.aab
     publishing:
+      google_play:
+        credentials: $GOOGLE_CREDENTIALS
+        track: internal
       email:
         recipients:
           - lakpriya1024@gmail.com
