@@ -36,7 +36,7 @@ workflows:
       google_play:
         credentials: $GOOGLE_CREDENTIALS
         track: internal
-        release_status: "draft"
+        submit_as_draft: true
       email:
         recipients:
           - lakpriya1024@gmail.com
