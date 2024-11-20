@@ -39,3 +39,49 @@ workflows:
       email:
         recipients:
           - lakpriya1024@gmail.com
+
+  ios:
+    name: Build iOS App
+    environment:
+      integrations:
+        app_store_connect: SilentTime
+      environment:
+        ios_signing:
+          distribution_type: app_store
+          bundle_identifier: com.silenttime.silenttime
+      vars:
+        APP_STORE_APPLE_ID: 6738434563
+      flutter: 3.19.0
+    scripts:
+      - name: Set up code signing settings on Xcode project
+        script: |
+          xcode-project use-profiles
+      - name: Install dependencies
+        script: |
+          flutter pub get
+      - name: Install pods
+        script: |
+          find . -name "Podfile" -execdir pod install \;
+      - name: Update app.gradle with version info
+        script: |
+          APP_BUILD_NUMBER=$(($BUILD_NUMBER))
+          APP_VERSION="1.0.$(($BUILD_NUMBER))"
+          echo "Updating app.gradle with APP_VERSION: $APP_VERSION and APP_BUILD_NUMBER: $APP_BUILD_NUMBER"
+          /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString $APP_VERSION" "ios/Runner/Info.plist"
+          /usr/libexec/PlistBuddy -c "Set :CFBundleVersion $APP_BUILD_NUMBER" "ios/Runner/Info.plist"
+          echo "[{\"language\": \"en-US\", \"text\": \"Build type: production, Version: $APP_VERSION, Build number: $APP_BUILD_NUMBER\"}]" > release_notes.json 
+          cat release_notes.json
+      - name: Build iOS App
+        script: |
+          flutter build ipa --release
+    artifacts:
+      - build/ios/ipa/*.ipa
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true
+        beta_groups:
+          - App Store Connect Users
+    email:
+      recipients:
+        - lakpriya1024@gmail.com
