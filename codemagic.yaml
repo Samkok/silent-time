@@ -49,7 +49,7 @@ workflows:
         submit_as_draft: true
       email:
         recipients:
-          - lakpriya1024@gmail.com
+          - hengsamkok76@gmail.com
 
   ios:
     name: Build iOS App
@@ -102,4 +102,4 @@ workflows:
           - App Store Connect Users
       email:
         recipients:
-          - lakpriya1024@gmail.com
+          - hengsamkok76@gmail.com
