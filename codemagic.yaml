@@ -1,0 +1,105 @@
+workflows:
+  android:
+    name: Build Android App
+    environment:
+      flutter: 3.19.0
+      java: 11
+      android_signing:
+        - silent_key
+      groups:
+        - google_credentials
+    scripts:
+      - name: Install dependencies
+        script: |
+          flutter pub get
+      - name: Update app.gradle with version info
+        script: |
+          APP_BUILD_NUMBER=$(($BUILD_NUMBER))
+          APP_VERSION="1.0.$(($BUILD_NUMBER))"
+          echo "Updating app.gradle with APP_VERSION: $APP_VERSION and APP_BUILD_NUMBER: $APP_BUILD_NUMBER"
+          sed -i '' "s/versionCode [0-9][0-9]*/versionCode $APP_BUILD_NUMBER/" android/app/build.gradle
+          sed -i '' "s/versionName \".*\"/versionName \"$APP_VERSION\"/" android/app/build.gradle
+          echo "[{\"language\": \"en-US\", \"text\": \"Build type: staging, Version: $APP_VERSION, Build number: $APP_BUILD_NUMBER\"}]" > release_notes.json
+          cat release_notes.json
+      - name: Build Android AAB
+        script: |
+          flutter build appbundle --release
+          # flutter build apk --release
+    cache:
+      cache_paths:
+        - $HOME/.gradle/caches
+        - $CM_BUILD_DIR/node_modules
+        - $CM_BUILD_DIR/platforms
+        - $CM_BUILD_DIR/hooks
+    artifacts:
+      - build/app/outputs/bundle/release/*.aab
+      # - build/app/outputs/flutter-apk/*.apk
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: "main"
+          include: true
+          source: true
+      cancel_previous_builds: true
+    publishing:
+      google_play:
+        credentials: $GOOGLE_CREDENTIALS
+        track: internal
+        # submit_as_draft: true
+      email:
+        recipients:
+          - lakpriya1024@gmail.com
+
+  ios:
+    name: Build iOS App
+    integrations:
+      app_store_connect: SilentTime
+    environment:
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.superiordev.silenttime
+      vars:
+        APP_STORE_APPLE_ID: 6738434563
+      flutter: 3.19.0
+    scripts:
+      - name: Set up code signing settings on Xcode project
+        script: |
+          xcode-project use-profiles
+      - name: Install dependencies
+        script: |
+          flutter pub get
+      - name: Install pods
+        script: |
+          find . -name "Podfile" -execdir pod install \;
+      - name: Update app.gradle with version info
+        script: |
+          APP_BUILD_NUMBER=$(($BUILD_NUMBER))
+          APP_VERSION="1.0.$(($BUILD_NUMBER))"
+          echo "Updating app.gradle with APP_VERSION: $APP_VERSION and APP_BUILD_NUMBER: $APP_BUILD_NUMBER"
+          /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString $APP_VERSION" "ios/Runner/Info.plist"
+          /usr/libexec/PlistBuddy -c "Set :CFBundleVersion $APP_BUILD_NUMBER" "ios/Runner/Info.plist"
+          echo "[{\"language\": \"en-US\", \"text\": \"Build type: production, Version: $APP_VERSION, Build number: $APP_BUILD_NUMBER\"}]" > release_notes.json 
+          cat release_notes.json
+      - name: Build iOS App
+        script: |
+          flutter build ipa --release --export-options-plist=/Users/builder/export_options.plist
+    artifacts:
+      - build/ios/ipa/*.ipa
+     triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: "main"
+          include: true
+          source: true
+      cancel_previous_builds: true
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true
+        beta_groups:
+          - App Store Connect Users
+      email:
+        recipients:
+          - lakpriya1024@gmail.com
