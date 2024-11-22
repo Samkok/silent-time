@@ -23,7 +23,8 @@ workflows:
           cat release_notes.json
       - name: Build Android AAB
         script: |
-          flutter build appbundle --release
+          # flutter build appbundle --release
+          flutter build apk --release
     cache:
       cache_paths:
         - $HOME/.gradle/caches
@@ -31,12 +32,13 @@ workflows:
         - $CM_BUILD_DIR/platforms
         - $CM_BUILD_DIR/hooks
     artifacts:
-      - build/app/outputs/bundle/release/*.aab
+      # - build/app/outputs/bundle/release/*.aab
+      - build/app/outputs/flutter-apk/*.apk
     publishing:
-      google_play:
-        credentials: $GOOGLE_CREDENTIALS
-        track: internal
-        submit_as_draft: true
+      # google_play:
+      #   credentials: $GOOGLE_CREDENTIALS
+      #   track: internal
+      #   submit_as_draft: true
       email:
         recipients:
           - lakpriya1024@gmail.com
