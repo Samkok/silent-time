@@ -34,6 +34,14 @@ workflows:
     artifacts:
       - build/app/outputs/bundle/release/*.aab
       # - build/app/outputs/flutter-apk/*.apk
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: "main"
+          include: true
+          source: true
+      cancel_previous_builds: true
     publishing:
       google_play:
         credentials: $GOOGLE_CREDENTIALS
@@ -78,6 +86,14 @@ workflows:
           flutter build ipa --release --export-options-plist=/Users/builder/export_options.plist
     artifacts:
       - build/ios/ipa/*.ipa
+     triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: "main"
+          include: true
+          source: true
+      cancel_previous_builds: true
     publishing:
       app_store_connect:
         auth: integration
