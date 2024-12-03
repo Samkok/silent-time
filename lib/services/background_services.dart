@@ -23,7 +23,7 @@ FutureOr<void> initializeBgService() async {
   /// OPTIONAL, using custom notification channel id
   const AndroidNotificationChannel channel = AndroidNotificationChannel(
     'my_foreground', // id
-    'MY FOREGROUND SERVICE', // title
+    'SILENT TIME SERVICE', // title
     description:
         'This channel is used for important notifications.', // description
     importance: Importance.low, // importance must be at low or higher level
