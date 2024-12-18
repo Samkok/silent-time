@@ -2,7 +2,7 @@ workflows:
   android:
     name: Build Android App
     environment:
-      flutter: 3.27.0
+      flutter: 3.19.0
       java: 11
       android_signing:
         - silent_key
@@ -61,7 +61,7 @@ workflows:
         bundle_identifier: com.superiordev.silenttime
       vars:
         APP_STORE_APPLE_ID: 6738434563
-      flutter: 3.27.0
+      flutter: 3.19.0
     scripts:
       - name: Set up code signing settings on Xcode project
         script: |
