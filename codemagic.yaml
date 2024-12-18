@@ -23,8 +23,8 @@ workflows:
           cat release_notes.json
       - name: Build Android AAB
         script: |
-          flutter build appbundle --release
-          # flutter build apk --release
+          # flutter build appbundle --release
+          flutter build apk --release
     cache:
       cache_paths:
         - $HOME/.gradle/caches
