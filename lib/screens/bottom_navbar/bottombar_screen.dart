@@ -21,20 +21,51 @@ class _BottombarScreenState extends State<BottombarScreen> {
   var _currentIndex = 0;
   ThemeController themeController = Get.put(ThemeController());
 
-  // int _selectedTab = 0;
-
-  List pages = [
+  final List<Widget> pages = [
     const HomeScreen(),
     const MyRulesScreen(),
     NotificationScreen(),
     Settings(),
   ];
 
+  Future<bool> _showExitConfirmation() async {
+    return (await showDialog<bool>(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+            title: const Text('Exit App'),
+            content: const Text('Are you sure you want to exit the app?'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: const Text('Cancel'),
+              ),
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: const Text('Exit'),
+              ),
+            ],
+          ),
+        )) ??
+        false;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: pages[_currentIndex],
-      bottomNavigationBar: Container(
+    return WillPopScope(
+      onWillPop: () async {
+        if (_currentIndex == 0) {
+          final shouldExit = await _showExitConfirmation();
+          return shouldExit;
+        } else {
+          setState(() {
+            _currentIndex = 0;
+          });
+          return false;
+        }
+      },
+      child: Scaffold(
+        body: pages[_currentIndex],
+        bottomNavigationBar: Container(
           padding: const EdgeInsets.only(top: 23),
           decoration: const BoxDecoration(
             color: Color(0xffDEE5EF),
@@ -60,7 +91,6 @@ class _BottombarScreenState extends State<BottombarScreen> {
                 selectedColorOpacity: 1.0,
                 unselectedItemColor: const Color(0xff44475C),
                 curve: Curves.linear,
-                // duration: Duration(microseconds: 1000),
                 currentIndex: _currentIndex,
                 onTap: (i) => setState(() => _currentIndex = i),
                 items: [
@@ -105,7 +135,6 @@ class _BottombarScreenState extends State<BottombarScreen> {
                       ),
                     ),
                     selectedColor: const Color(0xff6B67F2),
-                    unselectedColor: const Color(0xff44475C),
                   ),
 
                   /// Search
@@ -154,7 +183,9 @@ class _BottombarScreenState extends State<BottombarScreen> {
                 ],
               ),
             ),
-          )),
+          ),
+        ),
+      ),
     );
   }
 }
