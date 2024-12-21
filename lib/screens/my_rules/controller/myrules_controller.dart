@@ -530,19 +530,26 @@ class MyRulesController extends GetxController {
     print('val: ${val}');
     tabVal.value = val;
 
-    if (tabVal.value == 1) {
-      trigerFiilterList = trigerModelList
-          .where((element) => element.trigerStatus == true)
-          .toList();
-    } else if (tabVal.value == 2) {
-      trigerFiilterList = trigerModelList
-          .where((element) => element.trigerStatus == false)
-          .toList();
-    } else {
+  filterRules(); 
+  update();
+}
+
+void filterRules() {
+  if (tabVal.value == 0) {
+    trigerFiilterList = trigerModelList; 
+  } else if (tabVal.value == 1) {
+    trigerFiilterList = trigerModelList
+        .where((element) => element.trigerStatus == true)
+        .toList(); 
+  } else if (tabVal.value == 2) {
+    trigerFiilterList = trigerModelList
+        .where((element) => element.trigerStatus == false)
+        .toList(); 
+  } else {
       trigerFiilterList = trigerModelList;
     }
-    update();
-  }
+}
+
 
   void areaEnteredStatus() {
     areaEntered.toggle();
@@ -635,7 +642,7 @@ class MyRulesController extends GetxController {
 
   final triggerKey = "triggers";
 
-  FutureOr<void> saveTriggers() async {
+  Future<void> saveTriggers() async {
     // SharedPreferences prefs = await SharedPreferences.getInstance();
     // await prefs.setString(triggerKey, json.encode(jsonList));
     List jsonList = trigerModelList.map((trigger) => trigger.toJson()).toList();
@@ -694,28 +701,16 @@ class MyRulesController extends GetxController {
     }
   }
 
-  trigerStatusUpdate(i) async {
-    print(
-        "${trigerModelList[i].trigerTitle} : ${trigerModelList[i].trigerStatus}");
-    print('i: ${i}');
-    if (trigerModelList[i].trigerStatus == true) {
-      trigerModelList[i].trigerStatus = false;
-    } else {
-      trigerModelList[i].trigerStatus = true;
-    }
+  void trigerStatusUpdate(int index) async {
+   TriggerModel rule = trigerFiilterList[index];
+  int mainIndex =
+      trigerModelList.indexWhere((r) => r.trigerId == rule.trigerId);
+  if (mainIndex != -1) {
+   trigerModelList[mainIndex].trigerStatus =
+    !(trigerModelList[mainIndex].trigerStatus ?? false);
+    filterRules();
+    await saveTriggers();
     update();
-    print(
-        "${trigerModelList[i].trigerTitle} : ${trigerModelList[i].trigerStatus}");
-
-    // if (trigerModelList.length == 1) {
-    //   SwitchButtonController switchButtonController =
-    //       Get.put(SwitchButtonController());
-    //   switchButtonController.pressedBool.value =
-    //       trigerModelList[i].trigerStatus!;
-    // }
-
-    await SharedPreferenceService.setTriggerValue(trigerModelList);
-    update();
-    reStartBGServices();
   }
+}
 }
