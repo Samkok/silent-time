@@ -30,7 +30,7 @@ class _MyRulesScreenState extends State<MyRulesScreen>
   @override
   void initState() {
     super.initState();
-    myRulesController.checkPermission();
+    myRulesController.checkPermission(context);
   }
 
   @override
