@@ -18,6 +18,7 @@ import 'package:silenttime/widges/custom_text.dart';
 import '../../models/triger_model.dart';
 import '../my_rules/controller/myrules_controller.dart';
 import '../update_triger.dart/update_triger.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -39,11 +40,18 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     _logger.info("START");
     myRulesController.getAllTriggers();
-    myRulesController.checkPermission();
-    BackgroundLocationService().getCurrentLocation();
+    myRulesController.checkPermission(context);
+   
+ 
+
     Future.delayed(const Duration(milliseconds: 500), () async {
       await switcherController.checkStatus();
       myRulesController.checkAndStopServices();
+        await Permission.location.isDenied.then((value) {
+        if (!value) {
+          BackgroundLocationService().getCurrentLocation();
+        }
+      });
     });
 
     super.initState();
@@ -66,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   backgroundColor: AppColors.primaryBlue,
                   child: IconButton(
                     onPressed: () {
-                      controller.checkPermission();
+                      controller.checkPermission(context);
                       // myRulesController.setDefaultStartAndEndTime();
                       controller.setDefaultStartAndEndTime();
 

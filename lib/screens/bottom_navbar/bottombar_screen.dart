@@ -46,7 +46,7 @@ class _BottombarScreenState extends State<BottombarScreen> {
             ],
           ),
         )) ??
-        false;
+        false; // Default to false if dialog is dismissed
   }
 
   @override
@@ -54,9 +54,11 @@ class _BottombarScreenState extends State<BottombarScreen> {
     return WillPopScope(
       onWillPop: () async {
         if (_currentIndex == 0) {
+          // On Home page, show exit confirmation
           final shouldExit = await _showExitConfirmation();
           return shouldExit;
         } else {
+          // On other pages, navigate back to the Home page
           setState(() {
             _currentIndex = 0;
           });
@@ -115,7 +117,7 @@ class _BottombarScreenState extends State<BottombarScreen> {
                       ),
                       selectedColor: const Color(0xff6B67F2)),
 
-                  /// Likes
+                  /// My Rules
                   SalomonBottomBarItem(
                     icon: SvgPicture.asset(
                       "assets/svg/rule.svg",
@@ -137,7 +139,7 @@ class _BottombarScreenState extends State<BottombarScreen> {
                     selectedColor: const Color(0xff6B67F2),
                   ),
 
-                  /// Search
+                  /// Notification
                   SalomonBottomBarItem(
                     icon: SvgPicture.asset(
                       "assets/svg/notification.svg",
@@ -159,7 +161,7 @@ class _BottombarScreenState extends State<BottombarScreen> {
                     selectedColor: const Color(0xff6B67F2),
                   ),
 
-                  /// Profile
+                  /// Settings
                   SalomonBottomBarItem(
                     icon: SvgPicture.asset(
                       "assets/svg/settings.svg",

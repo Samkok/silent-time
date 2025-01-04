@@ -4,6 +4,8 @@ import 'package:background_location/background_location.dart' as bgLocation;
 import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/material.dart';
+import 'package:silenttime/widges/permission_modal.dart';
 
 class BackgroundLocationService {
   @pragma('vm:entry-point')
@@ -56,7 +58,7 @@ class BackgroundLocationService {
 
     permissionGranted = await location.hasPermission();
     if (permissionGranted == PermissionStatus.denied) {
-      permissionGranted = await location.requestPermission();
+      // permissionGranted = await location.requestPermission();
       if (permissionGranted != PermissionStatus.granted) {
         return;
       }

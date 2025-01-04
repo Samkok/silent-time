@@ -14,6 +14,8 @@ import 'package:silenttime/services/shared_preference_service.dart';
 import 'package:silenttime/utils/toast.dart';
 import '../../../controllers/switchbutton_controller.dart';
 import '../../../models/triger_model.dart';
+import 'package:silenttime/widges/permission_modal.dart';
+import 'package:silenttime/services/background_location_services.dart';
 
 class MyRulesController extends GetxController {
   // SwitchButtonController switcherController = Get.put(SwitchButtonController());
@@ -583,26 +585,102 @@ void filterRules() {
 
   RxBool isPermissionEnabled = false.obs;
 
-  // Location Permission
-  checkPermission() async {
+  // Check Permissions
+    checkPermission(BuildContext context) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
 
+    // Check if permissions are already granted
     bool isAccessGranted = await FlutterMute.isNotificationPolicyAccessGranted;
+    final locationStatus = await Permission.location.status;
+    final notificationStatus = await Permission.notification.status;
+    final locationAlways = await Permission.locationAlways.status;
 
-    final location = await Permission.location.request();
-    if (location.isDenied) {
-      await openAppSettings();
+    loc.Location locat = loc.Location();
+    bool _serviceEnabled = await locat.serviceEnabled();
+
+    if (isAccessGranted &&
+        locationStatus.isGranted &&
+        notificationStatus.isGranted &&
+        _serviceEnabled && locationAlways.isGranted) {
+      // All permissions are already granted, proceed directly
+      isPermissionEnabled.value = true;
+      pref.setBool('permission', true);
+      update();
+      return;
     }
-    final statusnotification = await Permission.notification.request();
-    if (statusnotification.isPermanentlyDenied) {
-      await openAppSettings();
+    
+    if (!locationStatus.isGranted ) {    
+      bool userAgreed = await PermissionModal.show(
+        context,
+        title: "Enable Location Services",
+       content: "We need your location to provide personalized and location-based features while using the app.\n\n"
+        "Please select 'While using the app' location services.",
+      );
+
+       if (!userAgreed)  return; 
+        // Request foreground location permission
+        var locationPermission = await Permission.locationWhenInUse.request();
+        if (!locationPermission.isGranted) {
+          if (await Permission.locationWhenInUse.isPermanentlyDenied) {
+            openAppSettings(); // Redirect to app settings if permanently denied
+            return;
+          }
+        }
+         
     }
 
-    loc.Location locat = new loc.Location();
+    if (!locationAlways.isGranted) {    
+      bool userAgreed = await PermissionModal.show(
+        context,
+        title: "Enable Background Location Services",
+        content: "We need your location to ensure continuous tracking and accurate functionality, even when the app is not in use. \n\n"
+        "Please select 'Allow all the time' location services.",
+          );
 
-    bool _serviceEnabled;
+      // Request background location permission
+        var locationAlwaysPermission = await Permission.locationAlways.request();
+        if (!locationAlwaysPermission.isGranted) {
+          if (await Permission.locationAlways.isPermanentlyDenied) {
+            openAppSettings(); // Redirect to app settings if permanently denied
+            return;
+          }
+        }
+         
+    }
 
-    _serviceEnabled = await locat.serviceEnabled();
+    // Handle notification permissions
+      var notificationPermission = await Permission.notification.request();
+      if (notificationPermission.isDenied || notificationPermission.isPermanentlyDenied) {
+        bool userAgreed = await PermissionModal.show(
+          context,
+          title: "Enable Notification Permissions",
+          content: "To keep you updated, we need notification permissions.",
+        );
+
+        if (!userAgreed) return; 
+          openAppSettings(); 
+
+        notificationPermission = await Permission.notification.request();
+        if (notificationPermission.isPermanentlyDenied) {
+          openAppSettings(); 
+        }
+      }
+
+    // Request DND permissions
+    if (!isAccessGranted) {
+      bool userAgreed = await PermissionModal.show(
+        context,
+        title: "Enable Do Not Disturb Access",
+       content: "To provide uninterrupted functionality, we need access to Do Not Disturb (DND) settings.\n\n"
+          "Please grant this access by clicking 'Fix it' button in the Home screen.",
+      );
+
+      if (!userAgreed) return; 
+    }
+
+  
+
+      _serviceEnabled = await locat.serviceEnabled();
     if (!_serviceEnabled) {
       _serviceEnabled = await locat.requestService();
       if (!_serviceEnabled) {
@@ -610,23 +688,26 @@ void filterRules() {
       }
     }
 
-    print('isAccessGranted: ${isAccessGranted}');
-    print('_serviceEnabled: ${_serviceEnabled}');
+    print('isAccessGranted: $isAccessGranted');
+    print('_serviceEnabled: $_serviceEnabled');
+    print('locationStatus.isGranted: ${locationStatus.isGranted}');
+    print('notificationPermission.isGranted: ${notificationPermission.isGranted}');
+    print('locationAlways.isGranted: ${locationAlways.isGranted}');
 
-    print('location.isGranted: ${location.isGranted}');
-    print('statusnotification.isGranted: ${statusnotification.isGranted}');
-
-    if (isAccessGranted == true &&
-        _serviceEnabled &&
-        location.isGranted &&
-        statusnotification.isGranted) {
+    // Check final permission state
+    if (isAccessGranted &&
+        locationStatus.isGranted &&
+        notificationPermission.isGranted &&
+        _serviceEnabled && locationAlways.isGranted) {
       isPermissionEnabled.value = true;
     } else {
       isPermissionEnabled.value = false;
     }
+   
     pref.setBool('permission', isPermissionEnabled.value);
     update();
   }
+
 
   updateIsPermissionEnabled(v) {
     isPermissionEnabled.value = v;
