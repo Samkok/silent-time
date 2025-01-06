@@ -13,6 +13,12 @@ class ActionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Color borderColor = Theme.of(context).brightness == Brightness.light
+        ? AppColors.orange
+        : AppColors.yellow; 
+    Color textColor = Theme.of(context).brightness == Brightness.light
+        ? AppColors.black
+        : AppColors.whiteColor; 
     return GetBuilder<MyRulesController>(
         init: MyRulesController(),
         builder: (controller) {
@@ -29,7 +35,8 @@ class ActionScreen extends StatelessWidget {
                         padding: EdgeInsets.symmetric(
                             vertical: 10.h, horizontal: 20.w),
                         decoration: const BoxDecoration(
-                          color: AppColors.primaryBlue,
+                          color: AppColors.primaryBlue, 
+                          border: Border(bottom: BorderSide(color: AppColors.grey, width: 0.2))                        
                         ),
                         child: Row(
                           children: [
@@ -56,7 +63,7 @@ class ActionScreen extends StatelessWidget {
                         title: CText(
                           text: 'Set Sound Mode Action',
                           fontSize: 16.sp,
-                          color: AppColors.primaryBlue,
+                          color: textColor,
                           fontWeight: FontWeight.w500,
                         ),
                         subtitle: SizedBox(
@@ -66,15 +73,15 @@ class ActionScreen extends StatelessWidget {
                             text:
                                 'Set device sound mode to Normal/ Vibrate Silent.',
                             fontSize: 12.sp,
-                            color: AppColors.blue42,
+                            color: AppColors.grey,
                             fontWeight: FontWeight.w300,
                           ),
                         ),
-                        trailing: const Icon(
-                          Icons.arrow_back_ios_rounded,
-                          color: AppColors.primaryBlue,
-                          size: 25,
-                        ),
+                        // trailing: const Icon(
+                        //   Icons.arrow_back_ios_rounded,
+                        //   color: AppColors.primaryBlue,
+                        //   size: 25,
+                        // ),
                       )
                     ],
                   ),
@@ -91,9 +98,11 @@ class ActionScreen extends StatelessWidget {
                           controller.saveTrigerAction('Do-Not-Disturb');
                           controller.changeActionNumber(0);
                         },
-                        buttonColor: controller.actionButtonNum.value == 0
-                            ? AppColors.primaryBlue
-                            : AppColors.blueFD,
+                        buttonColor: AppColors.primaryBlue,
+                        borderColor: controller.actionButtonNum.value == 0
+                            ? borderColor
+                            : AppColors.primaryBlue,
+                            
                       ),
                       ActionButtonWidget(
                         buttonIcon: AppImaes.vibrationIcon,
@@ -102,9 +111,10 @@ class ActionScreen extends StatelessWidget {
                           controller.saveTrigerAction('Silent');
                           controller.changeActionNumber(1);
                         },
-                        buttonColor: controller.actionButtonNum.value == 1
-                            ? AppColors.primaryBlue
-                            : AppColors.blueFD,
+                        buttonColor: AppColors.primaryBlue,
+                        borderColor: controller.actionButtonNum.value == 1
+                            ? borderColor
+                            : AppColors.primaryBlue,
                       ),
                     ],
                   ),
@@ -121,9 +131,10 @@ class ActionScreen extends StatelessWidget {
                           controller.saveTrigerAction('Speaker-ON/OFF');
                           controller.changeActionNumber(2);
                         },
-                        buttonColor: controller.actionButtonNum.value == 2
-                            ? AppColors.primaryBlue
-                            : AppColors.blueFD,
+                         buttonColor: AppColors.primaryBlue,
+                        borderColor: controller.actionButtonNum.value == 2
+                            ? borderColor
+                            : AppColors.primaryBlue,
                       ),
                       ActionButtonWidget(
                         buttonIcon: AppImaes.vibrationIcon,
@@ -132,9 +143,10 @@ class ActionScreen extends StatelessWidget {
                           controller.saveTrigerAction('Vibrate-Enable/Disable');
                           controller.changeActionNumber(3);
                         },
-                        buttonColor: controller.actionButtonNum.value == 3
-                            ? AppColors.primaryBlue
-                            : AppColors.blueFD,
+                         buttonColor: AppColors.primaryBlue,
+                        borderColor: controller.actionButtonNum.value == 3
+                            ? borderColor
+                            : AppColors.primaryBlue,
                       ),
                     ],
                   ),
@@ -151,9 +163,10 @@ class ActionScreen extends StatelessWidget {
                           controller.saveTrigerAction('Volume-Change');
                           controller.changeActionNumber(4);
                         },
-                        buttonColor: controller.actionButtonNum.value == 4
-                            ? AppColors.primaryBlue
-                            : AppColors.blueFD,
+                        buttonColor: AppColors.primaryBlue,
+                        borderColor: controller.actionButtonNum.value == 4
+                            ? borderColor
+                            : AppColors.primaryBlue,
                       ),
                       ActionButtonWidget(
                         buttonIcon: AppImaes.volumupdownIcon,
@@ -162,9 +175,10 @@ class ActionScreen extends StatelessWidget {
                           controller.saveTrigerAction('Volume-Up-Down');
                           controller.changeActionNumber(5);
                         },
-                        buttonColor: controller.actionButtonNum.value == 5
-                            ? AppColors.primaryBlue
-                            : AppColors.blueFD,
+                         buttonColor: AppColors.primaryBlue,
+                        borderColor: controller.actionButtonNum.value == 5
+                            ? borderColor
+                            : AppColors.primaryBlue,
                       ),
                     ],
                   ),

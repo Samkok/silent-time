@@ -146,13 +146,16 @@ class _NewRuleScreenState extends State<NewRuleScreen> {
                                 ),
                                 child: Row(
                                   children: [
+                                    SizedBox(width: 8.w),
                                     Image(
                                       image: const AssetImage(
                                         AppImaes.trigerlogo,
                                       ),
                                       height: 25.h,
                                       width: 25.h,
+                           
                                     ),
+                                    SizedBox(width: 8.w),
                                     CText(
                                       text: 'Add Trigger',
                                       fontSize: 20.sp,
