@@ -6,6 +6,8 @@ import 'package:location/location.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:silenttime/widges/permission_modal.dart';
+import 'package:silenttime/services/shared_preference_service.dart';
+import 'package:silenttime/services/trigger_services.dart';
 
 class BackgroundLocationService {
   @pragma('vm:entry-point')
@@ -67,23 +69,28 @@ class BackgroundLocationService {
     location.enableBackgroundMode(enable: true);
 
     locationData = await location.getLocation();
-
+ 
     double lat = locationData.latitude ?? 0.0;
     double long = locationData.longitude ?? 0.0;
 
-    location.onLocationChanged.listen((event) {
-      log("onLocationChanged: $event");
-      lat = event.latitude ?? 0.0;
-      long = event.longitude ?? 0.0;
+    print("Current_location: ${lat}:${long}");
+    await pref.setDouble("lat", lat);
+    await pref.setDouble("long", long);
+    await SharedPreferenceService.setLocation(lat, long);
+    
+    location.onLocationChanged.listen((event) async {
+      double updatedLat = event.latitude ?? 0.0;
+      double updatedLong = event.longitude ?? 0.0;
+      await SharedPreferenceService.setLocation(updatedLat, updatedLong);
     });
+
+    // Refresh triggers to use the updated location
+    TriggerServices().initTriggerMethods();
+
     // location.changeNotificationOptions(
     //   title: 'Geolocation',
     //   subtitle: 'Geolocation detection',
     // );
 
-    print("Current_location: ${lat}:${long}");
-
-    pref.setDouble("lat", lat);
-    pref.setDouble("long", long);
   }
 }

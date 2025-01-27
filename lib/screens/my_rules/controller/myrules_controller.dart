@@ -532,26 +532,25 @@ class MyRulesController extends GetxController {
     print('val: ${val}');
     tabVal.value = val;
 
-  filterRules(); 
-  update();
-}
+    filterRules();
+    update();
+  }
 
-void filterRules() {
-  if (tabVal.value == 0) {
-    trigerFiilterList = trigerModelList; 
-  } else if (tabVal.value == 1) {
-    trigerFiilterList = trigerModelList
-        .where((element) => element.trigerStatus == true)
-        .toList(); 
-  } else if (tabVal.value == 2) {
-    trigerFiilterList = trigerModelList
-        .where((element) => element.trigerStatus == false)
-        .toList(); 
-  } else {
+  void filterRules() {
+    if (tabVal.value == 0) {
+      trigerFiilterList = trigerModelList;
+    } else if (tabVal.value == 1) {
+      trigerFiilterList = trigerModelList
+          .where((element) => element.trigerStatus == true)
+          .toList();
+    } else if (tabVal.value == 2) {
+      trigerFiilterList = trigerModelList
+          .where((element) => element.trigerStatus == false)
+          .toList();
+    } else {
       trigerFiilterList = trigerModelList;
     }
-}
-
+  }
 
   void areaEnteredStatus() {
     areaEntered.toggle();
@@ -586,7 +585,7 @@ void filterRules() {
   RxBool isPermissionEnabled = false.obs;
 
   // Check Permissions
-    checkPermission(BuildContext context) async {
+  checkPermission(BuildContext context) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
 
     // Check if permissions are already granted
@@ -601,86 +600,87 @@ void filterRules() {
     if (isAccessGranted &&
         locationStatus.isGranted &&
         notificationStatus.isGranted &&
-        _serviceEnabled && locationAlways.isGranted) {
+        _serviceEnabled &&
+        locationAlways.isGranted) {
       // All permissions are already granted, proceed directly
       isPermissionEnabled.value = true;
       pref.setBool('permission', true);
       update();
       return;
     }
-    
-    if (!locationStatus.isGranted ) {    
+
+    if (!locationStatus.isGranted) {
       bool userAgreed = await PermissionModal.show(
         context,
         title: "Enable Location Services",
-       content: "We need your location to provide personalized and location-based features while using the app.\n\n"
-        "Please select 'While using the app' location services.",
+        content:
+            "We need your location to provide personalized and location-based features while using the app.\n\n"
+            "Please select 'While using the app' location services.",
       );
 
-       if (!userAgreed)  return; 
-        // Request foreground location permission
-        var locationPermission = await Permission.locationWhenInUse.request();
-        if (!locationPermission.isGranted) {
-          if (await Permission.locationWhenInUse.isPermanentlyDenied) {
-            openAppSettings(); // Redirect to app settings if permanently denied
-            return;
-          }
+      if (!userAgreed) return;
+      // Request foreground location permission
+      var locationPermission = await Permission.locationWhenInUse.request();
+      if (!locationPermission.isGranted) {
+        if (await Permission.locationWhenInUse.isPermanentlyDenied) {
+          openAppSettings(); // Redirect to app settings if permanently denied
+          return;
         }
-         
+      }
     }
 
-    if (!locationAlways.isGranted) {    
+    if (!locationAlways.isGranted) {
       bool userAgreed = await PermissionModal.show(
         context,
         title: "Enable Background Location Services",
-        content: "We need your location to ensure continuous tracking and accurate functionality, even when the app is not in use. \n\n"
-        "Please select 'Allow all the time' location services.",
-          );
+        content:
+            "We need your location to ensure continuous tracking and accurate functionality, even when the app is not in use. \n\n"
+            "Please select 'Allow all the time' location services.",
+      );
 
       // Request background location permission
-        var locationAlwaysPermission = await Permission.locationAlways.request();
-        if (!locationAlwaysPermission.isGranted) {
-          if (await Permission.locationAlways.isPermanentlyDenied) {
-            openAppSettings(); // Redirect to app settings if permanently denied
-            return;
-          }
+      var locationAlwaysPermission = await Permission.locationAlways.request();
+      if (!locationAlwaysPermission.isGranted) {
+        if (await Permission.locationAlways.isPermanentlyDenied) {
+          openAppSettings(); // Redirect to app settings if permanently denied
+          return;
         }
-         
+      }
     }
 
     // Handle notification permissions
-      var notificationPermission = await Permission.notification.request();
-      if (notificationPermission.isDenied || notificationPermission.isPermanentlyDenied) {
-        bool userAgreed = await PermissionModal.show(
-          context,
-          title: "Enable Notification Permissions",
-          content: "To keep you updated, we need notification permissions.",
-        );
+    var notificationPermission = await Permission.notification.request();
+    if (notificationPermission.isDenied ||
+        notificationPermission.isPermanentlyDenied) {
+      bool userAgreed = await PermissionModal.show(
+        context,
+        title: "Enable Notification Permissions",
+        content: "To keep you updated, we need notification permissions.",
+      );
 
-        if (!userAgreed) return; 
-          openAppSettings(); 
+      if (!userAgreed) return;
+      openAppSettings();
 
-        notificationPermission = await Permission.notification.request();
-        if (notificationPermission.isPermanentlyDenied) {
-          openAppSettings(); 
-        }
+      notificationPermission = await Permission.notification.request();
+      if (notificationPermission.isPermanentlyDenied) {
+        openAppSettings();
       }
+    }
 
     // Request DND permissions
     if (!isAccessGranted) {
       bool userAgreed = await PermissionModal.show(
         context,
         title: "Enable Do Not Disturb Access",
-       content: "To provide uninterrupted functionality, we need access to Do Not Disturb (DND) settings.\n\n"
-          "Please grant this access by clicking 'Fix it' button in the Home screen.",
+        content:
+            "To provide uninterrupted functionality, we need access to Do Not Disturb (DND) settings.\n\n"
+            "Please grant this access by clicking 'Fix it' button in the Home screen.",
       );
 
-      if (!userAgreed) return; 
+      if (!userAgreed) return;
     }
 
-  
-
-      _serviceEnabled = await locat.serviceEnabled();
+    _serviceEnabled = await locat.serviceEnabled();
     if (!_serviceEnabled) {
       _serviceEnabled = await locat.requestService();
       if (!_serviceEnabled) {
@@ -691,23 +691,24 @@ void filterRules() {
     print('isAccessGranted: $isAccessGranted');
     print('_serviceEnabled: $_serviceEnabled');
     print('locationStatus.isGranted: ${locationStatus.isGranted}');
-    print('notificationPermission.isGranted: ${notificationPermission.isGranted}');
+    print(
+        'notificationPermission.isGranted: ${notificationPermission.isGranted}');
     print('locationAlways.isGranted: ${locationAlways.isGranted}');
 
     // Check final permission state
     if (isAccessGranted &&
         locationStatus.isGranted &&
         notificationPermission.isGranted &&
-        _serviceEnabled && locationAlways.isGranted) {
+        _serviceEnabled &&
+        locationAlways.isGranted) {
       isPermissionEnabled.value = true;
     } else {
       isPermissionEnabled.value = false;
     }
-   
+
     pref.setBool('permission', isPermissionEnabled.value);
     update();
   }
-
 
   updateIsPermissionEnabled(v) {
     isPermissionEnabled.value = v;
@@ -783,15 +784,15 @@ void filterRules() {
   }
 
   void trigerStatusUpdate(int index) async {
-   TriggerModel rule = trigerFiilterList[index];
-  int mainIndex =
-      trigerModelList.indexWhere((r) => r.trigerId == rule.trigerId);
-  if (mainIndex != -1) {
-   trigerModelList[mainIndex].trigerStatus =
-    !(trigerModelList[mainIndex].trigerStatus ?? false);
-    filterRules();
-    await saveTriggers();
-    update();
+    TriggerModel rule = trigerFiilterList[index];
+    int mainIndex =
+        trigerModelList.indexWhere((r) => r.trigerId == rule.trigerId);
+    if (mainIndex != -1) {
+      trigerModelList[mainIndex].trigerStatus =
+          !(trigerModelList[mainIndex].trigerStatus ?? false);
+      filterRules();
+      await saveTriggers();
+      update();
+    }
   }
-}
 }

@@ -198,15 +198,19 @@ Future<int> enumTriggers() async {
   return count;
 }
 
-reStartBGServices() {
+reStartBGServices() async {
   SwitchButtonController switchButtonController =
       Get.put(SwitchButtonController());
   final service = FlutterBackgroundService();
   service.invoke("stopService");
-  Future.delayed(const Duration(seconds: 1), () async {
-    if (await enumTriggers() != 0) {
-      service.startService();
-    }
-    switchButtonController.checkStatus();
-  });
+  await Future.delayed(const Duration(seconds: 1));
+
+  if (await enumTriggers() != 0) {
+    await service.startService();
+    log("Background service restarted with updated triggers.");
+  } else {
+    log("No active triggers. Background service not restarted.");
+  }
+  switchButtonController.checkStatus();
 }
+

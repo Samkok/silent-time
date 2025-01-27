@@ -151,38 +151,38 @@ class ActionScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(top: 16.h),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      ActionButtonWidget(
-                        buttonIcon: AppImaes.volumnchangeIcon,
-                        buttonText: 'Volume Change',
-                        onPressed: () {
-                          controller.saveTrigerAction('Volume-Change');
-                          controller.changeActionNumber(4);
-                        },
-                        buttonColor: AppColors.primaryBlue,
-                        borderColor: controller.actionButtonNum.value == 4
-                            ? borderColor
-                            : AppColors.primaryBlue,
-                      ),
-                      ActionButtonWidget(
-                        buttonIcon: AppImaes.volumupdownIcon,
-                        buttonText: 'Volume up/ down',
-                        onPressed: () {
-                          controller.saveTrigerAction('Volume-Up-Down');
-                          controller.changeActionNumber(5);
-                        },
-                         buttonColor: AppColors.primaryBlue,
-                        borderColor: controller.actionButtonNum.value == 5
-                            ? borderColor
-                            : AppColors.primaryBlue,
-                      ),
-                    ],
-                  ),
-                ),
+                // Padding(
+                //   padding: EdgeInsets.only(top: 16.h),
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //     children: [
+                //       ActionButtonWidget(
+                //         buttonIcon: AppImaes.volumnchangeIcon,
+                //         buttonText: 'Volume Change',
+                //         onPressed: () {
+                //           controller.saveTrigerAction('Volume-Change');
+                //           controller.changeActionNumber(4);
+                //         },
+                //         buttonColor: AppColors.primaryBlue,
+                //         borderColor: controller.actionButtonNum.value == 4
+                //             ? borderColor
+                //             : AppColors.primaryBlue,
+                //       ),
+                //       ActionButtonWidget(
+                //         buttonIcon: AppImaes.volumupdownIcon,
+                //         buttonText: 'Volume up/ down',
+                //         onPressed: () {
+                //           controller.saveTrigerAction('Volume-Up-Down');
+                //           controller.changeActionNumber(5);
+                //         },
+                //          buttonColor: AppColors.primaryBlue,
+                //         borderColor: controller.actionButtonNum.value == 5
+                //             ? borderColor
+                //             : AppColors.primaryBlue,
+                //       ),
+                //     ],
+                //   ),
+                // ),
                 InkWell(
                   onTap: () {
                     controller.setup3Status();

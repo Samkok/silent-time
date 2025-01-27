@@ -280,33 +280,33 @@ class _NewRuleScreenState extends State<NewRuleScreen> {
                                                 //   ),
                                                 // ),
                                               ),
-                                              InkWell(
-                                                onTap: () {
-                                                  controller.saveTrigerTitle(
-                                                    'Geofence Trigger',
-                                                  );
-                                                  Navigator.pop(context);
-                                                  showDialog(
-                                                      context: context,
-                                                      builder: (BuildContext
-                                                          context) {
-                                                        return const SelectAreaModeDialog();
-                                                      });
-                                                  // showDialog(
-                                                  //     context: context,
-                                                  //     builder: (BuildContext
-                                                  //         context) {
-                                                  //       return const LocationPermishionDialog();
-                                                  //     });
-                                                },
-                                                child: TrigerTitleWidget(
-                                                  widgetTitle:
-                                                      'Geofence Trigger',
-                                                  icondata:
-                                                      Icons.calendar_month,
-                                                  selectedTab: true,
-                                                ),
-                                              ),
+                                              // InkWell(
+                                              //   onTap: () {
+                                              //     controller.saveTrigerTitle(
+                                              //       'Geofence Trigger',
+                                              //     );
+                                              //     Navigator.pop(context);
+                                              //     showDialog(
+                                              //         context: context,
+                                              //         builder: (BuildContext
+                                              //             context) {
+                                              //           return const SelectAreaModeDialog();
+                                              //         });
+                                              //     // showDialog(
+                                              //     //     context: context,
+                                              //     //     builder: (BuildContext
+                                              //     //         context) {
+                                              //     //       return const LocationPermishionDialog();
+                                              //     //     });
+                                              //   },
+                                              //   child: TrigerTitleWidget(
+                                              //     widgetTitle:
+                                              //         'Geofence Trigger',
+                                              //     icondata:
+                                              //         Icons.calendar_month,
+                                              //     selectedTab: true,
+                                              //   ),
+                                              // ),
                                             ],
                                           ),
                                         )
@@ -412,21 +412,21 @@ class _NewRuleScreenState extends State<NewRuleScreen> {
                                               //     ),
                                               //   ),
                                               // ),
-                                              InkWell(
-                                                onTap: () {
-                                                  controller.saveTrigerTitle(
-                                                    'Day of Week/Month',
-                                                  );
-                                                  dayWeekMonthDialog(context);
-                                                },
-                                                child: TrigerTitleWidget(
-                                                  widgetTitle:
-                                                      'Day of Week/Month',
-                                                  icondata:
-                                                      Icons.access_time_rounded,
-                                                  selectedTab: true,
-                                                ),
-                                              ),
+                                              // InkWell(
+                                              //   onTap: () {
+                                              //     controller.saveTrigerTitle(
+                                              //       'Day of Week/Month',
+                                              //     );
+                                              //     dayWeekMonthDialog(context);
+                                              //   },
+                                              //   child: TrigerTitleWidget(
+                                              //     widgetTitle:
+                                              //         'Day of Week/Month',
+                                              //     icondata:
+                                              //         Icons.access_time_rounded,
+                                              //     selectedTab: true,
+                                              //   ),
+                                              // ),
                                               // InkWell(
                                               //   onTap: () {
                                               //     dayWeekMonthDialog(context);
@@ -477,56 +477,56 @@ class _NewRuleScreenState extends State<NewRuleScreen> {
                                             ],
                                           ),
                                         ),
-                                        Padding(
-                                          padding:
-                                              EdgeInsets.only(bottom: 16.h),
-                                          child: InkWell(
-                                            onTap: () {
-                                              controller.saveTrigerTitle(
-                                                'Regular Interval',
-                                              );
-                                              regularIntervalDialog(context);
-                                            },
-                                            child: Container(
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: 15.w),
-                                              margin: EdgeInsets.symmetric(
-                                                  horizontal: 15.w),
-                                              height: 64.h,
-                                              // width: 182.w,
-                                              decoration: BoxDecoration(
-                                                color: AppColors.primaryBlue,
-                                                borderRadius: BorderRadius.all(
-                                                  Radius.circular(8.r),
-                                                ),
-                                              ),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                children: [
-                                                  const Icon(
-                                                    Icons.timer_outlined,
-                                                    color: AppColors.whiteColor,
-                                                    size: 24.0,
-                                                  ),
-                                                  Padding(
-                                                    padding: EdgeInsets.only(
-                                                        left: 15.w),
-                                                    child: CText(
-                                                      maxLines: 2,
-                                                      text: 'Regular Interval',
-                                                      fontSize: 16.sp,
-                                                      fontWeight:
-                                                          FontWeight.w300,
-                                                      color:
-                                                          AppColors.whiteColor,
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        )
+                                        // Padding(
+                                        //   padding:
+                                        //       EdgeInsets.only(bottom: 16.h),
+                                        //   child: InkWell(
+                                        //     onTap: () {
+                                        //       controller.saveTrigerTitle(
+                                        //         'Regular Interval',
+                                        //       );
+                                        //       regularIntervalDialog(context);
+                                        //     },
+                                        //     child: Container(
+                                        //       padding: EdgeInsets.symmetric(
+                                        //           horizontal: 15.w),
+                                        //       margin: EdgeInsets.symmetric(
+                                        //           horizontal: 15.w),
+                                        //       height: 64.h,
+                                        //       // width: 182.w,
+                                        //       decoration: BoxDecoration(
+                                        //         color: AppColors.primaryBlue,
+                                        //         borderRadius: BorderRadius.all(
+                                        //           Radius.circular(8.r),
+                                        //         ),
+                                        //       ),
+                                        //       child: Row(
+                                        //         mainAxisAlignment:
+                                        //             MainAxisAlignment.start,
+                                        //         children: [
+                                        //           const Icon(
+                                        //             Icons.timer_outlined,
+                                        //             color: AppColors.whiteColor,
+                                        //             size: 24.0,
+                                        //           ),
+                                        //           Padding(
+                                        //             padding: EdgeInsets.only(
+                                        //                 left: 15.w),
+                                        //             child: CText(
+                                        //               maxLines: 2,
+                                        //               text: 'Regular Interval',
+                                        //               fontSize: 16.sp,
+                                        //               fontWeight:
+                                        //                   FontWeight.w300,
+                                        //               color:
+                                        //                   AppColors.whiteColor,
+                                        //             ),
+                                        //           )
+                                        //         ],
+                                        //       ),
+                                        //     ),
+                                        //   ),
+                                        // )
                                       ],
                                     ),
                                   ],
