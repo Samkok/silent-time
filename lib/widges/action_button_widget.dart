@@ -9,12 +9,14 @@ class ActionButtonWidget extends StatelessWidget {
   String buttonText;
   final VoidCallback onPressed;
   Color buttonColor;
+  Color? borderColor;
   ActionButtonWidget({
     super.key,
     required this.buttonIcon,
     required this.buttonText,
     required this.onPressed,
     required this.buttonColor,
+    this.borderColor,
   });
 
   @override
@@ -24,10 +26,15 @@ class ActionButtonWidget extends StatelessWidget {
       child: Container(
         // width: 190.w,
         height: 66.h,
-        padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+        padding: EdgeInsets.symmetric(vertical: 7.h, horizontal: 7.w),
         decoration: BoxDecoration(
             color: buttonColor,
-            borderRadius: const BorderRadius.all(Radius.circular(8))),
+            borderRadius: const BorderRadius.all(Radius.circular(8)),
+            border: borderColor != null
+              ? Border.all(color: borderColor!,width: 3) 
+              : null, 
+              
+            ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

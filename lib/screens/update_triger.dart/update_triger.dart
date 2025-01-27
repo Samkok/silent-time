@@ -34,8 +34,12 @@ class UpdateTrigger extends StatelessWidget {
                 fontWeight: FontWeight.w400,
               ),
               leading: IconButton(
-                onPressed: () {
-                  Get.back();
+                onPressed: () {                   
+                    if (controller.tabVal.value == 1) {
+                        return  controller.updateTrigerSteps(0);
+                      }else if (controller.tabVal.value == 2) {
+                        return  controller.updateTrigerSteps(1);
+                      }else return Get.back();
                 },
                 icon: const Icon(
                   Icons.arrow_circle_left,

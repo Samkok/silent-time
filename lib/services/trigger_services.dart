@@ -83,13 +83,12 @@ class TriggerServices {
 
   locationTrigger(TriggerModel triger) async {
     print('locationTrigger________________________________');
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    var lat = pref.getDouble("lat") ?? 0.0;
-    var long = pref.getDouble("long") ?? 0.0;
-    LatLng currentLatlng = LatLng(lat, long);
+    Map<String, double> location = await SharedPreferenceService.getLocation();
+    LatLng currentLatlng = LatLng(location["lat"]!, location["long"]!);
     LatLng destiLatlng = LatLng(double.parse(triger.locationLat.toString()),
-        double.parse(triger.locationLong.toString()));
+                                double.parse(triger.locationLong.toString()));
     var distance = await calculateDistanceInMeters(currentLatlng, destiLatlng);
+    print('currentLatlng: $currentLatlng');
     print('distance: $distance');
 
     double radius = double.parse(triger.zoneRadious.toString());

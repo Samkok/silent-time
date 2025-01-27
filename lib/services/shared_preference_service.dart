@@ -54,5 +54,16 @@ class SharedPreferenceService {
     }
     return notificationList;
   }
+    static Future<void> setLocation(double latitude, double longitude) async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setDouble("lat", latitude);
+      await prefs.setDouble("long", longitude);    
+    }
 
+    static Future<Map<String, double>> getLocation() async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      double lat = prefs.getDouble("lat") ?? 0.0;
+      double long = prefs.getDouble("long") ?? 0.0;
+          return {"lat": lat, "long": long};
+    }
 }

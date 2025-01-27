@@ -221,7 +221,7 @@ class _MyRulesScreenState extends State<MyRulesScreen>
                                         ),
                                         subtitle: Column(children: [
                                           Divider(
-                                              color: AppColors.grey
+                                              color: AppColors.primaryBlue
                                                   .withOpacity(0.4)),
                                           Padding(
                                             padding: EdgeInsets.only(

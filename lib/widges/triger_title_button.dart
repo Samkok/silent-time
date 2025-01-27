@@ -25,7 +25,8 @@ class TrigerTitleWidget extends StatelessWidget {
         builder: (controller) {
           return Container(
             height: 64.h,
-            width: 172.w,
+            // width: 172.w,
+            width: 342.w,
             decoration: BoxDecoration(
               color: selectedTab ? AppColors.primaryBlue : AppColors.blueFD,
               borderRadius: BorderRadius.all(
@@ -41,7 +42,8 @@ class TrigerTitleWidget extends StatelessWidget {
                   size: 24.0,
                 ),
                 SizedBox(
-                  width: 82.w,
+                  // width: 82.w,
+                  width: 162.w,
                   child: CText(
                     text: widgetTitle,
                     fontSize: 16.sp,
