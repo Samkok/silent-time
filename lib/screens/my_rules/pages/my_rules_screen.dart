@@ -31,6 +31,10 @@ class _MyRulesScreenState extends State<MyRulesScreen>
   void initState() {
     super.initState();
     myRulesController.checkPermission(context);
+    Future.delayed(Duration(milliseconds: 100), () {
+    myRulesController.filterRules();
+    myRulesController.update(); 
+  });
   }
 
   @override

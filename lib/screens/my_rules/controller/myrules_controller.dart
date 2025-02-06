@@ -15,7 +15,6 @@ import 'package:silenttime/utils/toast.dart';
 import '../../../controllers/switchbutton_controller.dart';
 import '../../../models/triger_model.dart';
 import 'package:silenttime/widges/permission_modal.dart';
-import 'package:silenttime/services/background_location_services.dart';
 
 class MyRulesController extends GetxController {
   // SwitchButtonController switcherController = Get.put(SwitchButtonController());
@@ -597,6 +596,12 @@ class MyRulesController extends GetxController {
     loc.Location locat = loc.Location();
     bool _serviceEnabled = await locat.serviceEnabled();
 
+    void disableBatteryOptimization() async {
+      if (await Permission.ignoreBatteryOptimizations.isDenied) {
+        await openAppSettings();
+      }
+    }
+
     if (isAccessGranted &&
         locationStatus.isGranted &&
         notificationStatus.isGranted &&
@@ -756,6 +761,8 @@ class MyRulesController extends GetxController {
 
   FutureOr<void> getAllTriggers() async {
     trigerModelList = await SharedPreferenceService.getTriggers();
+    print("trigerModelList: $trigerModelList");
+    filterRules();
     update();
   }
 
@@ -784,15 +791,36 @@ class MyRulesController extends GetxController {
   }
 
   void trigerStatusUpdate(int index) async {
+    if (trigerFiilterList.isEmpty) {
+      print("trigerFiilterList is empty, cannot update status.");
+      return;
+    }
+
+    if (index < 0 || index >= trigerFiilterList.length) {
+      print("Invalid index: $index. List length: ${trigerFiilterList.length}");
+      return;
+    }
+
     TriggerModel rule = trigerFiilterList[index];
+
     int mainIndex =
         trigerModelList.indexWhere((r) => r.trigerId == rule.trigerId);
-    if (mainIndex != -1) {
-      trigerModelList[mainIndex].trigerStatus =
-          !(trigerModelList[mainIndex].trigerStatus ?? false);
-      filterRules();
-      await saveTriggers();
-      update();
+    if (mainIndex == -1) {
+      print("Trigger with ID ${rule.trigerId} not found in main list.");
+      return;
     }
+
+    // Toggle the trigger status
+    trigerModelList[mainIndex].trigerStatus =
+        !(trigerModelList[mainIndex].trigerStatus ?? false);
+
+    // Ensure filter updates
+    filterRules();
+    await saveTriggers();
+
+    // Force UI update
+    update();
+
+    print("Trigger status updated successfully.");
   }
 }
